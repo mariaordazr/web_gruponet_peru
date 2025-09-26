@@ -252,7 +252,7 @@ $sql = getProducts($conexion, $productosPorPagina, $current_page, $id_categoria,
                 ?>
                         <article class="products__card">
                             <a target="_self" href="productos-vista.php?id=<?php echo $resultado['id_producto']; ?>">
-                                <img src="data:image/jpg;base64,<?php echo base64_encode($resultado['img_product']) ?>" alt="imagen" class="products__img">
+                                <img src="/public/uploads/productos/<?php echo htmlspecialchars($resultado['img_product']); ?>" alt="<?php echo htmlspecialchars($resultado['name_product']); ?>">
                             </a>
                             <hr>
 
@@ -311,7 +311,7 @@ $sql = getProducts($conexion, $productosPorPagina, $current_page, $id_categoria,
                     ?>
                         <article class="products__card">
                             <a target="_self" href="productos-vista.php?id=<?php echo $resultado['id_producto']; ?>">
-                                <img src="data:image/jpg;base64,<?php echo base64_encode($resultado['img_product']) ?>" alt="imagen" class="products__img">
+                                <img src="/public/uploads/productos/<?php echo htmlspecialchars($resultado['img_product']); ?>" alt="<?php echo htmlspecialchars($resultado['name_product']); ?>" class="products__img">
                             </a>
                             <hr>
 

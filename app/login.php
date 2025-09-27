@@ -45,7 +45,7 @@ if (!empty($_SESSION['active'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- ======= CSS ======= -->
-    <link rel="stylesheet" href="views/css/login.css">
+    <link rel="stylesheet" href="../public/assests/admin/css/login.css">
 
     <!-- ======= BOX ICONS ======= -->
     <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
@@ -57,7 +57,7 @@ if (!empty($_SESSION['active'])) {
     <div class="login">
         <div class="login__content">
             <div class="login__img">
-                <img src="views/img/img-login.svg" alt="">
+                <img src="../public/assests/admin/img/img-login.svg" alt="">
             </div>
 
             <div class="login__forms">

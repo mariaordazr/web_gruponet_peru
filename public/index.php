@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="public/assests/img/logo2.png" type="image/png">
+    <link rel="shortcut icon" href="assests/img/logo2.png" type="image/png">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
-    <link rel="stylesheet" href="public/assests/css/styles.css">
+    <link rel="stylesheet" href="assests/css/styles.css">
 
     <title>GRUPONET</title>
 </head>
@@ -21,7 +21,7 @@
         <nav class="nav container">
             <div class="div__logo">
                 <a href="index.php" class="nav__logo">
-                    <img src="public/assests/img/logo_texto_prueba.png" alt="" class="nav__logo-icon">
+                    <img src="assests/img/logo_texto_prueba.png" alt="" class="nav__logo-icon">
                 </a>
             </div>
 
@@ -32,16 +32,16 @@
                         <a href="#home" class="nav__link active">Inicio</a>
                     </li>
                     <li class="nav__item">
-                        <a href="public/view/productos.php" class="nav__link">Productos</a>
+                        <a href="view/productos.php" class="nav__link">Productos</a>
                     </li>
                     <li class="nav__item">
-                        <a href="public/view/servicios.php" class="nav__link">Servicios</a>
+                        <a href="view/servicios.php" class="nav__link">Servicios</a>
                     </li>
                     <li class="nav__item">
-                        <a href="public/view/nosotros.php" class="nav__link">Nosotros</a>
+                        <a href="view/nosotros.php" class="nav__link">Nosotros</a>
                     </li>
                     <li class="nav__item">
-                        <a href="public/view/envios.php" class="nav__link">Envios</a>
+                        <a href="view/envios.php" class="nav__link">Envios</a>
                     </li>
                 </ul>
 
@@ -52,7 +52,7 @@
 
             <div class="nav__btns">
                 <div class="nav__shop" id="cart-shop">
-                    <a href="public/view/productos.php" class="nav__shop">
+                    <a href="view/productos.php" class="nav__shop">
                         <i class='bx bx-search-alt'></i>
                     </a>
                 </div>
@@ -79,7 +79,7 @@
 
                 while ($datos = $sql->fetch_object()) {
                 ?>
-                    <img src="/public/uploads/portadas/<?= htmlspecialchars($datos->img_portada) ?>" alt="" class="home__img active">
+                    <img src="uploads/portadas/<?= htmlspecialchars($datos->img_portada) ?>" alt="" class="home__img active">
                 <?php } ?>
             </div>
 
@@ -112,7 +112,7 @@
                     </div>
 
                     <div class="home__info-overlay">
-                        <img src="public/assests/img/slider2.jpg" alt="" class="home__info-img">
+                        <img src="assests/img/slider2.jpg" alt="" class="home__info-img">
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@
                             <p><?php echo $resultado['nombre_ofert'] ?></p>
                         </div>
                         <div class="card__precis">
-                            <a target="_self" href="public/view/productos-recien.php?id=<?php echo $resultado['id_oferta']; ?>" class="card__icon"><ion-icon name="add-circle-outline"></ion-icon></ion-icon></a>
+                            <a target="_self" href="view/productos-recien.php?id=<?php echo $resultado['id_oferta']; ?>" class="card__icon"><ion-icon name="add-circle-outline"></ion-icon></ion-icon></a>
 
                             <div>
                                 <!--<span class="card__preci card__preci--before">S/. <?php echo $resultado['precio_normal'] ?></span>-->
@@ -229,11 +229,11 @@
 
                 <ul class="footer__links">
                     <li>
-                        <a href="public/view/servicios.php" class="footer__link">Servicio Electronico</a>
+                        <a href="view/servicios.php" class="footer__link">Servicio Electronico</a>
                     </li>
 
                     <li>
-                        <a href="public/view/servicios.php" class="footer__link">Servicio Tecnico</a>
+                        <a href="view/servicios.php" class="footer__link">Servicio Tecnico</a>
                     </li>
 
                     <li>
@@ -259,15 +259,15 @@
                     </li>
 
                     <li>
-                        <a href="public/view/envios.php" class="footer__link">Atención al Cliente</a>
+                        <a href="view/envios.php" class="footer__link">Atención al Cliente</a>
                     </li>
 
                     <li>
-                        <a href="public/view/nosotros.php" class="footer__link">Nosotros</a>
+                        <a href="view/nosotros.php" class="footer__link">Nosotros</a>
                     </li>
 
                     <li>
-                        <a href="public/view/copy.php" class="footer__link">CopyRight</a>
+                        <a href="view/copy.php" class="footer__link">CopyRight</a>
                     </li>
                 </ul>
             </div>
@@ -291,7 +291,7 @@
                 </ul>
                 
                 <div class="footer__content-logo">
-                    <img class="logo_redes-footer" src="public/assests/img/logo-redes.webp" alt="logo-redes">
+                    <img class="logo_redes-footer" src="assests/img/logo-redes.webp" alt="logo-redes">
                 </div>
             </div>
         </div>
@@ -309,7 +309,7 @@
         <i class='bx bxl-whatsapp scrollup__icon1'></i>
     </a>
 
-    <script src="public/assests/js/main-inicio.js"></script>
+    <script src="assests/js/main-inicio.js"></script>
     <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 
 </body>

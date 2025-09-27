@@ -116,7 +116,7 @@ if (isset($_REQUEST["id"])) {
 
 
     <!--================ MAIN JS ================-->
-    <script src="views/js/main-pro.js"></script>
+    <script src="../public/assests/admin/js/main-pro.js"></script>
 
 </body>
 

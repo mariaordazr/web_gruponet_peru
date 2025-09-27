@@ -69,7 +69,7 @@
         <!--============== HOME ===============-->
         <section class="home" id="home">
             <?php
-            include "app/model/bd_conexion.php";
+            include "../app/model/bd_conexion.php";
             $sql = $conexion->query("SELECT * FROM portadas");
             ?>
             <div class="slider">
@@ -126,7 +126,7 @@
 
             <div class="products__container bd-grid">
                 <?php
-                require("app/model/bd_conexion.php");
+                require("../app/model/bd_conexion.php");
 
                 $sql = $conexion->query("SELECT * FROM promociones");
                 $cardIndex = 1; // Variable para llevar un seguimiento del índice de la tarjeta
@@ -170,7 +170,7 @@
             <div class="featured__container grid">
                 <!-- bucle -->
                 <?php
-                require("app/model/bd_conexion.php");
+                require("../app/model/bd_conexion.php");
 
                 $sql = $conexion->query("SELECT * FROM nuevo_liquidaccion");
 

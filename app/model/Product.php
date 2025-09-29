@@ -1,13 +1,10 @@
 <?php
 
-// NOTA: Asegúrate de que bd_conexion.php provea la conexión $conexion (mysqli)
-// Se asume que $conexion está disponible globalmente, o se pasa al constructor.
-
 class Product {
     protected $db;
 
-    public function __construct($conexion) {
-        $this->db = $conexion;
+    public function __construct($connection) {
+        $this->db = $connection;
     }
 
     /**
@@ -88,7 +85,7 @@ class Product {
             $stmtImage->bind_param("ssi", $imageData['fileName'], $imageData['fileRoute'], $id);
             $imageUpdated = $stmtImage->execute();
             $stmtImage->close();
-            return $imageUpdated; // Retorna el éxito de la actualización de la imagen (o el producto si la imagen no se actualizó)
+            return $imageUpdated;
         }
         
         return $productUpdated;
@@ -99,7 +96,6 @@ class Product {
      */
     public function delete(int $idProduct) {
         // NOTA: Con la restricción FOREIGN KEY ON DELETE CASCADE, al borrar de 'products', se borra automáticamente de 'product_images'.
-        // Si no tienes CASCADE, necesitarás dos DELETE. Asumiremos que tienes CASCADE como en el esquema nuevo.
         $deleteQuery = "DELETE FROM products WHERE id_product = ?";
         $stmt = $this->db->prepare($deleteQuery);
         $stmt->bind_param("i", $idProduct);
@@ -107,9 +103,61 @@ class Product {
         $stmt->close();
         return $result;
     }
-    
-    // ... otros métodos (obtenerTodos, contarTotal, etc. para lista_productos.php)
-    
-    // NOTA: Debes crear métodos en otros Modelos (ej: Category.php, Brand.php)
-    // para las consultas de los SELECT en las vistas (como obtenerCategorias() y obtenerMarcas()).
+
+    /**
+     * Obtiene todos los productos con paginación y búsqueda.
+     * @param string $searchTerm El término de búsqueda opcional.
+     * @param int $start El índice de inicio para la paginación.
+     * @param int $limit La cantidad de productos a obtener.
+     * @return array
+     */
+    public function getAll(string $searchTerm = '', int $start = 0, int $limit = 20): array
+    {
+        // Consulta base para obtener productos, categorías, marcas e imágenes.
+        $query = "SELECT p.id_product, p.name, c.name AS category_name, b.name AS brand_name, 
+                         p.description, p.price, p.stock, i.file_name, i.file_route
+                  FROM products p
+                  JOIN categories c ON p.category = c.id_category
+                  JOIN brands b ON p.brand = b.id_brand
+                  LEFT JOIN product_images i ON p.id_product = i.product";
+
+        // Añadir condiciones de búsqueda si hay un término.
+        if (!empty($searchTerm)) {
+            $searchTerm = "%" . $this->db->real_escape_string($searchTerm) . "%";
+            $query .= " WHERE p.name LIKE '{$searchTerm}' OR c.name LIKE '{$searchTerm}' OR b.name LIKE '{$searchTerm}'";
+        }
+
+        // Ordenar y limitar para la paginación.
+        $query .= " ORDER BY p.id_product ASC LIMIT {$start}, {$limit}";
+
+        $result = $this->db->query($query);
+        
+        $products = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $products[] = $row;
+            }
+        }
+        
+        return $products;
+    }
+
+    /**
+     * Obtiene el conteo total de productos para la paginación.
+     * @param string $searchTerm El término de búsqueda opcional.
+     * @return int
+     */
+    public function getTotalProductsCount(string $searchTerm = ''): int
+    {
+        $query = "SELECT COUNT(*) as total FROM products p JOIN categories c ON p.category = c.id_category JOIN brands b ON p.brand = b.id_brand";
+
+        if (!empty($searchTerm)) {
+            $searchTerm = "%" . $this->db->real_escape_string($searchTerm) . "%";
+            $query .= " WHERE p.name LIKE '{$searchTerm}' OR c.name LIKE '{$searchTerm}' OR b.name LIKE '{$searchTerm}'";
+        }
+
+        $result = $this->db->query($query);
+        $row = $result->fetch_assoc();
+        return $row['total'];
+    }
 }

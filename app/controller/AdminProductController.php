@@ -1,137 +1,151 @@
 <?php
-// Incluir la conexión a la base de datos (bd_conexion.php)
-// NOTA: Se asume que $connection está disponible globalmente o se pasa al constructor.
 
-class Product 
-{
-    protected $db; // Conexión a la base de datos (mysqli o PDO)
+// Incluir los modelos necesarios desde la ruta raíz de la aplicación.
+require_once ROOT_PATH . 'app/model/Product.php'; 
+require_once ROOT_PATH . 'app/model/Category.php'; // Asegúrate de que esta clase exista.
+require_once ROOT_PATH . 'app/model/Brand.php'; // Asegúrate de que esta clase exista.
 
-    public function __construct($connection) 
-    {
-        $this->db = $connection;
-    }
+class AdminProductController {
+    private $productModel;
+    private $categoryModel;
+    private $brandModel;
 
-    /**
-     * Crea un nuevo producto en la tabla 'products' y su entrada de imagen en 'product_images'.
-     * @param array $data Los datos del formulario del producto.
-     * @param string $fileName El nombre único del archivo de imagen.
-     * @param string $fileRoute La ruta de la carpeta donde se guarda la imagen (ej: 'uploads/products/').
-     * @return bool
-     */
-    public function create(array $data, string $fileName, string $fileRoute): bool
-    {
-        // 1. Inserción en la tabla 'products'
-        $insertProductQuery = "INSERT INTO products (name, category, brand, description, price, stock) 
-                               VALUES (?, ?, ?, ?, ?, ?)";
-        $stmtProduct = $this->db->prepare($insertProductQuery);
-        // Usamos los nombres de columna de la nueva DB: name, category, brand, description, price, stock
-        $stmtProduct->bind_param("siisds", 
-            $data['name'], $data['category'], $data['brand'], $data['description'], 
-            $data['price'], $data['stock']
-        );
-        
-        if (!$stmtProduct->execute()) {
-            return false;
-        }
-        
-        $productId = $stmtProduct->insert_id;
-        $stmtProduct->close();
-        
-        // 2. Inserción en la tabla 'product_images' (usando el ID del producto creado)
-        $insertImageQuery = "INSERT INTO product_images (file_name, file_route, product) 
-                             VALUES (?, ?, ?)";
-        $stmtImage = $this->db->prepare($insertImageQuery);
-        $stmtImage->bind_param("ssi", $fileName, $fileRoute, $productId);
-        $result = $stmtImage->execute();
-        $stmtImage->close();
-        
-        return $result;
-    }
-
-    /**
-     * Obtiene un producto por su ID, uniendo las tablas de Categoría, Marca e Imagen.
-     * @param int $idProduct El ID del producto.
-     * @return array|null
-     */
-    public function getById(int $idProduct): ?array
-    {
-        $query = "SELECT p.*, c.name AS category_name, b.name AS brand_name, 
-                         i.file_name, i.file_route
-                  FROM products p
-                  JOIN categories c ON p.category = c.id_category
-                  JOIN brands b ON p.brand = b.id_brand
-                  LEFT JOIN product_images i ON p.id_product = i.product
-                  WHERE p.id_product = ?";
-                  
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param("i", $idProduct);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $data = $result->fetch_assoc();
-        $stmt->close();
-        return $data;
+    public function __construct($connection) {
+        $this->productModel = new Product($connection);
+        $this->categoryModel = new Category($connection);
+        $this->brandModel = new Brand($connection);
     }
     
     /**
-     * Actualiza los datos de un producto. Opcionalmente, actualiza la información de la imagen.
-     * @param int $idProduct El ID del producto.
-     * @param array $data Los nuevos datos.
-     * @param array|null $imageData Datos de la nueva imagen si se sube.
-     * @return bool
+     * Muestra la lista de productos (lógica de lista_productos.php).
      */
-    public function update(int $idProduct, array $data, ?array $imageData = null): bool
-    {
-        // 1. Actualizar la tabla 'products'
-        $updateProductQuery = "UPDATE products SET name = ?, category = ?, brand = ?, description = ?, price = ?, stock = ? WHERE id_product = ?";
-        $stmtProduct = $this->db->prepare($updateProductQuery);
-        $stmtProduct->bind_param("siidsii", 
-            $data['name'], $data['category'], $data['brand'], $data['description'], 
-            $data['price'], $data['stock'], $idProduct
-        );
-        $productUpdated = $stmtProduct->execute();
-        $stmtProduct->close();
+    public function index() {
+        // Lógica de paginación y búsqueda.
+        $productsPerPage = 20;
+        $currentPage = isset($_GET['page']) ? intval($_GET['page']) : 1;
+        $searchTerm = $_GET['search'] ?? '';
+
+        $totalProducts = $this->productModel->getTotalProductsCount($searchTerm);
+        $totalPages = ceil($totalProducts / $productsPerPage);
         
-        // 2. Actualizar la tabla 'product_images' si se proveen datos de imagen
-        if ($imageData && $productUpdated) {
-            $updateImageQuery = "UPDATE product_images SET file_name = ?, file_route = ? WHERE product = ?";
-            $stmtImage = $this->db->prepare($updateImageQuery);
-            $stmtImage->bind_param("ssi", $imageData['fileName'], $imageData['fileRoute'], $idProduct);
-            $imageUpdated = $stmtImage->execute();
-            $stmtImage->close();
-            return $imageUpdated;
+        $start = ($currentPage - 1) * $productsPerPage;
+        
+        // Obtiene los productos del modelo.
+        $products = $this->productModel->getAll($searchTerm, $start, $productsPerPage);
+
+        // Incluye la vista para mostrar la tabla de productos.
+        include ROOT_PATH . 'app/views/admin/product/list.php';
+    }
+
+    /**
+     * Maneja la creación del producto (lógica de agregar_producto.php).
+     */
+    public function create() {
+        $alert = '';
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Sanitizar y obtener datos POST.
+            $data = $_POST;
+            $uploadedFile = $_FILES["image"];
+
+            // Subir imagen y obtener la ruta.
+            $imageInfo = $this->handleImageUpload($uploadedFile, 'products');
+
+            if ($imageInfo) {
+                // Llamar al modelo para crear el producto.
+                if ($this->productModel->create($data, $imageInfo['fileName'], $imageInfo['fileRoute'])) {
+                    header("Location: /admin/products");
+                    exit;
+                } else {
+                    $alert = '<div class="alert">Error al agregar el producto en la base de datos.</div>';
+                }
+            } else {
+                $alert = '<div class="alert">La imagen es inválida o falló la subida.</div>';
+            }
         }
         
-        return $productUpdated;
+        // Carga los datos de las categorías y marcas para el formulario.
+        $categories = $this->categoryModel->getAll();
+        $brands = $this->brandModel->getAll();
+
+        // Incluye la vista del formulario.
+        include ROOT_PATH . 'app/views/admin/product/create.php';
     }
 
     /**
-     * Elimina el producto por su ID (la imagen asociada se borra por CASCADE en la BD).
-     * @param int $idProduct El ID del producto a eliminar.
-     * @return bool
+     * Maneja la edición y carga del producto (lógica de editar_producto.php).
      */
-    public function delete(int $idProduct): bool
-    {
-        $deleteQuery = "DELETE FROM products WHERE id_product = ?";
-        $stmt = $this->db->prepare($deleteQuery);
-        $stmt->bind_param("i", $idProduct);
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
+    public function update() {
+        $idProduct = $_REQUEST['id'] ?? null;
+        if (!$idProduct) {
+            header("Location: /admin/products");
+            exit;
+        }
+        
+        $alert = '';
+        
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $data = $_POST;
+            $uploadedFile = $_FILES["image"];
+            $imageData = null;
+
+            if (isset($uploadedFile) && $uploadedFile["error"] === UPLOAD_ERR_OK) {
+                $imageInfo = $this->handleImageUpload($uploadedFile, 'products');
+                if ($imageInfo) {
+                    $imageData = $imageInfo;
+                }
+            }
+
+            if ($this->productModel->update((int)$idProduct, $data, $imageData)) {
+                header("Location: /admin/products");
+                exit;
+            } else {
+                 $alert = '<div class="alert">Error al modificar el producto.</div>';
+            }
+        }
+        
+        // Carga los datos del producto y de los selectores.
+        $productData = $this->productModel->getById((int)$idProduct);
+        $categories = $this->categoryModel->getAll();
+        $brands = $this->brandModel->getAll();
+        
+        // Incluye la vista del formulario de edición.
+        include ROOT_PATH . 'app/views/admin/product/edit.php';
     }
 
     /**
-     * Actualiza el estado de un producto (Activo/Agotado).
-     * @param int $idProduct El ID del producto.
-     * @param string $status El nuevo estado ('Activo' o 'Agotado').
-     * @return bool
+     * Elimina el producto (lógica de eliminar_producto.php).
      */
-    public function updateStatus(int $idProduct, string $status): bool
-    {
-        $query = "UPDATE products SET status = ? WHERE id_product = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param("si", $status, $idProduct);
-        return $stmt->execute();
+    public function delete() {
+        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+            $idProduct = (int)$_GET['id'];
+            
+            if ($this->productModel->delete($idProduct)) {
+                header("Location: /admin/products");
+                exit;
+            }
+        }
+        header("Location: /admin/products?error=delete_failed");
+        exit;
     }
-    
-    // NOTA: Aquí irían los métodos obtenerTodos(), contarTotal(), etc. para la paginación.
+
+    private function handleImageUpload(array $file, string $folder): ?array {
+        $uploadDir = ROOT_PATH . 'public/uploads/' . $folder . '/';
+        
+        if ($file['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($file['tmp_name'])) {
+            return null;
+        }
+
+        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $fileName = uniqid() . '.' . $extension;
+        $targetPath = $uploadDir . $fileName;
+
+        if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+            return [
+                'fileName' => $fileName,
+                'fileRoute' => 'uploads/' . $folder
+            ];
+        }
+
+        return null;
+    }
 }

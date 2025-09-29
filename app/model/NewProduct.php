@@ -73,9 +73,16 @@ class NewProduct
      */
     public function getAll(): array
     {
-        $query = "SELECT np.id_new_product, p.id_product, p.name 
-                  FROM new_products np 
-                  JOIN products p ON np.product = p.id_product";
+        $query = "SELECT 
+                    p.name, 
+                    p.price, 
+                    pi.file_name, 
+                    pi.file_route, 
+                    np.id_new_product
+                  FROM new_products np
+                  JOIN products p ON np.product = p.id_product
+                  LEFT JOIN product_images pi ON p.id_product = pi.product";
+        
         $result = $this->db->query($query);
         $newProducts = [];
         if ($result) {

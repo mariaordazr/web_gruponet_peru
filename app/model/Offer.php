@@ -50,9 +50,15 @@ class Offer
      */
     public function getAll(?int $productId = null): array
     {
-        $query = "SELECT o.*, p.name AS product_name 
-                  FROM offers o 
-                  JOIN products p ON o.product = p.id_product";
+        $query = "SELECT 
+                    p.price, 
+                    o.message, 
+                    pi.file_name, 
+                    pi.file_route
+                  FROM offers o
+                  JOIN products p ON o.product = p.id_product
+                  LEFT JOIN product_images pi ON p.id_product = pi.product";
+        
         if ($productId !== null) {
             $query .= " WHERE o.product = ?";
         }

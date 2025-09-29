@@ -1,15 +1,21 @@
 <?php
+// AÑADE ESTAS TRES LÍNEAS JUSTO AQUÍ
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // public/index.php
+
 // 1. Definir la constante y la conexión
 define('ROOT_PATH', dirname(__DIR__) . '/');
-require_once ROOT_PATH . 'app/db_connection.php';
+require_once ROOT_PATH . 'app/config/db_connection.php';
 
 // 2. Cargar controladores
 require_once ROOT_PATH . 'app/controller/PublicController.php';
-// CAMBIO CLAVE: Usamos AdminUserController para la autenticación
-require_once ROOT_PATH . 'app/controller/AdminUserController.php'; 
+require_once ROOT_PATH . 'app/controller/AuthController.php'; // <-- AÑADIDO: Incluimos el controlador de autenticación
 require_once ROOT_PATH . 'app/controller/AdminDashboardController.php';
-// ... y todos los demás controladores de admin
+require_once ROOT_PATH . 'app/controller/AdminUserController.php'; 
+// ... y todos los demás controladores de admin que necesites
 
 // 3. Obtener la URI
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
@@ -17,18 +23,18 @@ $segments = explode('/', $uri);
 
 // 4. Lógica de enrutamiento
 if ($segments[0] === 'auth') {
-    // Rutas de autenticación
-    // CAMBIO CLAVE: Instanciamos AdminUserController
-    $controller = new AuthController($connection); 
+    // Rutas de autenticación (/auth/login, /auth/logout)
+    $controller = new AuthController($connection); // <-- CORRECTO: Ahora la clase sí existe
     
-    if ($segments[1] === 'login') {
+    if (isset($segments[1]) && $segments[1] === 'login') {
         $controller->login();
-    } elseif ($segments[1] === 'logout') {
+    } elseif (isset($segments[1]) && $segments[1] === 'logout') {
         $controller->logout();
     } else {
         http_response_code(404);
         echo "Página no encontrada.";
     }
+
 } elseif ($segments[0] === 'admin') {
     // Rutas de administración (protegidas)
     session_start();
@@ -56,7 +62,7 @@ if ($segments[0] === 'auth') {
     }
 
 } else {
-    // Rutas públicas
+    // Rutas públicas (la página de inicio)
     $controller = new PublicController($connection);
     $controller->index();
 }

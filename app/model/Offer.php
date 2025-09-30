@@ -53,8 +53,7 @@ class Offer
         $query = "SELECT 
                     p.price, 
                     o.message, 
-                    pi.file_name, 
-                    pi.file_route
+                    pi.file_name
                   FROM offers o
                   JOIN products p ON o.product = p.id_product
                   LEFT JOIN product_images pi ON p.id_product = pi.product";

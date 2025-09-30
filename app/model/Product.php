@@ -33,10 +33,10 @@ class Product {
         $stmtProduct->close();
         
         // 2. Crear la entrada en la tabla 'product_images'
-        $insertImageQuery = "INSERT INTO product_images (file_name, file_route, product) 
-                             VALUES (?, ?, ?)";
+        $insertImageQuery = "INSERT INTO product_images (file_name, product) 
+                             VALUES (?, ?)";
         $stmtImage = $this->db->prepare($insertImageQuery);
-        $stmtImage->bind_param("ssi", $fileName, $fileRoute, $productId);
+        $stmtImage->bind_param("ssi", $fileName, $productId);
         $result = $stmtImage->execute();
         $stmtImage->close();
         
@@ -48,7 +48,7 @@ class Product {
      */
     public function getById(int $id) {
         $query = "SELECT p.id_product, p.name, p.description, p.price, p.stock, p.category, p.brand, 
-                         i.file_name, i.file_route, c.name AS name_category, b.name AS name_brand
+                         i.file_name, c.name AS name_category, b.name AS name_brand
                   FROM products p
                   JOIN categories c ON p.category = c.id_category
                   JOIN brands b ON p.brand = b.id_brand
@@ -80,9 +80,9 @@ class Product {
         
         // 2. Actualizar la tabla 'product_images' si se proveen datos
         if ($imageData && $productUpdated) {
-            $updateImageQuery = "UPDATE product_images SET file_name = ?, file_route = ? WHERE product = ?";
+            $updateImageQuery = "UPDATE product_images SET file_name = ? WHERE product = ?";
             $stmtImage = $this->db->prepare($updateImageQuery);
-            $stmtImage->bind_param("ssi", $imageData['fileName'], $imageData['fileRoute'], $id);
+            $stmtImage->bind_param("ssi", $imageData['fileName'], $id);
             $imageUpdated = $stmtImage->execute();
             $stmtImage->close();
             return $imageUpdated;
@@ -115,7 +115,7 @@ class Product {
     {
         // Consulta base para obtener productos, categorías, marcas e imágenes.
         $query = "SELECT p.id_product, p.name, c.name AS category_name, b.name AS brand_name, 
-                         p.description, p.price, p.stock, i.file_name, i.file_route
+                         p.description, p.price, p.stock, i.file_name
                   FROM products p
                   JOIN categories c ON p.category = c.id_category
                   JOIN brands b ON p.brand = b.id_brand

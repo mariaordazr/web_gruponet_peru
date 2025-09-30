@@ -18,24 +18,28 @@ class PublicController {
 
     public function index() {
         // Obtener datos para la página de inicio desde los modelos
-        $promociones = $this->offerModel->getAll(); // Obtiene todas las ofertas
-        $productosNuevos = $this->newProductModel->getAll(); // Obtiene todos los productos "recién llegados"
-        $portadasPath = ROOT_PATH . 'public/assets/uploads/portadas/';
-        $portadas = []; // Inicia la variable como un array vacío
+        $offers = $this->offerModel->getAll(); // Obtiene todas las ofertas
+        $newProducts = $this->newProductModel->getAll(); // Obtiene todos los productos "recién llegados"
+        $sliderImagesPath = ROOT_PATH . 'public/assets/uploads/sliderImages/';
+        $sliderImages = []; // Inicia la variable como un array vacío
         
         // Verifica si la carpeta existe para evitar errores
-        if (is_dir($portadasPath)) {
+        if (is_dir($sliderImagesPath)) {
             // Escanea el directorio y obtiene todos los archivos
-            $archivos = scandir($portadasPath);
+            $files = scandir($sliderImagesPath);
             
             // Filtra los resultados para eliminar '.' y '..' que no son imágenes
-            $portadas = array_diff($archivos, ['.', '..']);
+            $sliderImages = array_diff($files, ['.', '..']);
         }
         
-        // $portadas = $this->portadaModel->getAll(); // Obtiene las portadas para el slider
+        // $sliderImages = $this->portadaModel->getAll(); // Obtiene las portadas para el slider
 
         // Incluir la vista de la página de inicio
         include ROOT_PATH . 'app/views/public/home.php';
+    }
+
+    public function aboutUs() {
+        include ROOT_PATH . 'app/views/public/about_us.php';
     }
 }
 ?>

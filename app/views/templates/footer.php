@@ -20,8 +20,8 @@
             <div class="footer__content">
                 <h3 class="footer__title">Servicios</h3>
                 <ul class="footer__links">
-                    <li><a href="/servicios" class="footer__link">Servicio Electrónico</a></li>
-                    <li><a href="/servicios" class="footer__link">Servicio Técnico</a></li>
+                    <li><a href="/services" class="footer__link">Servicio Electrónico</a></li>
+                    <li><a href="/services" class="footer__link">Servicio Técnico</a></li>
                     <li><a href="https://wa.me/51961146060?text=REQUIERO%20SERVICIO%20TECNICO%20-%20Diagnostico%20" class="footer__link" target="_blank">Diagnóstico</a></li>
                     <li><a href="https://wa.me/51961146060?text=REQUIERO%20SERVICIO%20TECNICO%20-%20Mantenimiento%20" class="footer__link" target="_blank">Mantenimiento</a></li>
                     <li><a href="https://wa.me/51961146060?text=REQUIERO%20SERVICIO%20TECNICO%20-%20Sistema%20Operativo%20" class="footer__link" target="_blank">Sistema Operativo</a></li>
@@ -32,8 +32,8 @@
                 <h3 class="footer__title">Sobre Nosotros</h3>
                 <ul class="footer__links">
                     <li><a href="https://wa.me/51961146060?text=Me%20gustaria%20realizar%20una%20consulta...%20" target="_blank" class="footer__link">Centro de Ayuda</a></li>
-                    <li><a href="/envios" class="footer__link">Atención al Cliente</a></li>
-                    <li><a href="/nosotros" class="footer__link">Nosotros</a></li>
+                    <li><a href="https://wa.me/51961146060?text=Me%20gustaria%20realizar%20una%20consulta...%20" class="footer__link">Atención al Cliente</a></li>
+                    <li><a href="/about-us" class="footer__link">Nosotros</a></li>
                     <li><a href="/copyright" class="footer__link">CopyRight</a></li>
                 </ul>
             </div>
@@ -51,7 +51,7 @@
                 </div>
             </div>
         </div>
-        <span class="footer__copy">© Gruponet 2023. All rights reserved</span>
+        <span class="footer__copy">© Gruponet 2025. All rights reserved</span>
     </footer>
 
     <a href="#" class="scrollup" id="scroll-up">
@@ -62,7 +62,10 @@
         <i class='bx bxl-whatsapp scrollup__icon1'></i>
     </a>
 
-    <script src="/assets/js/main-inicio.js"></script>
+    <script src="/assets/js/scrollreveal.min.js"></script>
+    <script src="/assets/js/swiper-bundle.min.js"></script>
+
+    <script src="/assets/js/main.js"></script>
     
     <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>

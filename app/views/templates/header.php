@@ -29,16 +29,16 @@
                         <a href="/" class="nav__link active">Inicio</a>
                     </li>
                     <li class="nav__item">
-                        <a href="/productos" class="nav__link">Productos</a>
+                        <a href="/producs" class="nav__link">Productos</a>
                     </li>
                     <li class="nav__item">
-                        <a href="/servicios" class="nav__link">Servicios</a>
+                        <a href="/services" class="nav__link">Servicios</a>
                     </li>
                     <li class="nav__item">
-                        <a href="/nosotros" class="nav__link">Nosotros</a>
+                        <a href="/about-us" class="nav__link">Nosotros</a>
                     </li>
                     <li class="nav__item">
-                        <a href="/envios" class="nav__link">Envíos</a>
+                        <a href="/shipping" class="nav__link">Envíos</a>
                     </li>
                 </ul>
 

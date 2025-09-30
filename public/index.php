@@ -61,8 +61,11 @@ if ($segments[0] === 'auth') {
         echo "Página no encontrada.";
     }
 
+} elseif ($segments[0] === 'about-us') {
+    $controller = new PublicController($connection);
+    $controller->aboutUs();
 } else {
-    // Rutas públicas (la página de inicio)
+    // Ruta principal (homepage)
     $controller = new PublicController($connection);
     $controller->index();
 }

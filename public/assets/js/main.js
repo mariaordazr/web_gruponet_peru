@@ -24,6 +24,46 @@ document.addEventListener('DOMContentLoaded', function() {
         delay: 400,
     });
 
+    /*=============== MOBILE MENU ===============*/
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const navMenu = document.getElementById('nav-menu');
+
+    if (mobileMenuButton && navMenu) {
+        mobileMenuButton.addEventListener('click', () => {
+            navMenu.classList.toggle('is-active');
+        });
+    }
+
+    /*=============== DROPDOWN MENUS ===============*/
+    const dropdownToggles = document.querySelectorAll('[data-dropdown-toggle]');
+
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(event) {
+            event.preventDefault(); // Evita que el enlace '#' navegue
+            const dropdownId = this.getAttribute('data-dropdown-toggle');
+            const dropdownMenu = document.getElementById(dropdownId);
+            
+            // Cierra otros dropdowns abiertos
+            document.querySelectorAll('.dropdown-menu.is-active').forEach(menu => {
+                if (menu !== dropdownMenu) {
+                    menu.classList.remove('is-active');
+                }
+            });
+
+            // Muestra u oculta el dropdown actual
+            dropdownMenu.classList.toggle('is-active');
+        });
+    });
+
+    // Cierra los dropdowns si se hace clic fuera de ellos
+    window.addEventListener('click', function(event) {
+        if (!event.target.matches('[data-dropdown-toggle]')) {
+            document.querySelectorAll('.dropdown-menu.is-active').forEach(menu => {
+                menu.classList.remove('is-active');
+            });
+        }
+    });
+
     // General reveals that might be on all pages
     sr.reveal(`.section__title`);
     sr.reveal(`.footer__container`);

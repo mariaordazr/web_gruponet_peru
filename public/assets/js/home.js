@@ -2,35 +2,33 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    /*=============== AUTOSLIDE HOME ===============*/
-    const slides = document.getElementsByClassName("home__img");
+    /*=============== INITIALIZE HOME SLIDER (Swiper) ===============*/
+    const homeSlider = new Swiper('.home-slider', {
+        // CAMBIO: El efecto ahora es 'slide' para que una imagen empuje a la otra
+        effect: 'slide',
 
-    // Safety check: only run the slider if there are slides on the page
-    if (slides.length > 0) {
-        let slideIndex = 0;
-        let slideInterval;
+        // Hace que el slider sea infinito
+        loop: true,
 
-        function autoSlide() {
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].classList.remove("active");
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) {
-                slideIndex = 1;
-            }
-            // The error was here: slides[slideIndex-1] could be undefined if slides.length was 0
-            slides[slideIndex - 1].classList.add("active");
-        }
+        // Autoplay con la nueva configuración de pausa
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true, // CAMBIO: Pausa el slider al pasar el mouse por encima
+        },
 
-        function startSlideShow() {
-            stopSlideShow(); // Clear any existing interval
-            slideInterval = setInterval(autoSlide, 5000); // 5 seconds
-        }
+        // Elementos de paginación (los puntos de abajo)
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
 
-        function stopSlideShow() {
-            clearInterval(slideInterval);
-        }
+        // Flechas de navegación
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
 
-        startSlideShow();
-    }
+    // El código personalizado para pausar en las flechas ya no es necesario y ha sido eliminado.
 });

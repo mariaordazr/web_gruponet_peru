@@ -1,70 +1,97 @@
-</main>
-    <footer class="footer section">
-        <div class="footer__container container grid">
-            <div class="footer__content">
-                <h3 class="footer__title">Información</h3>
-                <ul class="footer__list">
-                    <li>
-                        <a href="https://www.google.com/maps/place/Gruponet/@-11.9457532,-77.0628188,17z/data=!3m1!4b1!4m6!3m5!1s0x9105d1d39637f4f3:0x8d76e2f2ab859a57!8m2!3d-11.9457585!4d-77.0602439!16s%2Fg%2F11c1qcgsk_" class="footer__link" target="_blank">
-                            Av. Universitaria 6504 <br> Comas 15312
-                        </a>
-                    </li>
-                    <li>Celular <br> 961146060</li>
-                    <li>Atención <br>
-                        Lunes - Viernes: 9am a 7pm <br>
-                        Sábado: 9am a 4pm
-                    </li>
-                </ul>
-            </div>
-
-            <div class="footer__content">
-                <h3 class="footer__title">Servicios</h3>
-                <ul class="footer__links">
-                    <li><a href="/services" class="footer__link">Servicio Electrónico</a></li>
-                    <li><a href="/services" class="footer__link">Servicio Técnico</a></li>
-                    <li><a href="https://wa.me/51961146060?text=REQUIERO%20SERVICIO%20TECNICO%20-%20Diagnostico%20" class="footer__link" target="_blank">Diagnóstico</a></li>
-                    <li><a href="https://wa.me/51961146060?text=REQUIERO%20SERVICIO%20TECNICO%20-%20Mantenimiento%20" class="footer__link" target="_blank">Mantenimiento</a></li>
-                    <li><a href="https://wa.me/51961146060?text=REQUIERO%20SERVICIO%20TECNICO%20-%20Sistema%20Operativo%20" class="footer__link" target="_blank">Sistema Operativo</a></li>
-                </ul>
-            </div>
-
-            <div class="footer__content">
-                <h3 class="footer__title">Sobre Nosotros</h3>
-                <ul class="footer__links">
-                    <li><a href="https://wa.me/51961146060?text=Me%20gustaria%20realizar%20una%20consulta...%20" target="_blank" class="footer__link">Centro de Ayuda</a></li>
-                    <li><a href="https://wa.me/51961146060?text=Me%20gustaria%20realizar%20una%20consulta...%20" class="footer__link">Atención al Cliente</a></li>
-                    <li><a href="/about-us" class="footer__link">Nosotros</a></li>
-                    <li><a href="/copyright" class="footer__link">CopyRight</a></li>
-                </ul>
-            </div>
-
-            <div class="footer__content">
-                <h3 class="footer__title">Redes Sociales</h3>
-                <ul class="footer__social">
-                    <a href="https://www.facebook.com/corporaciongruponet" target="_blank" class="footer__social-link"><i class='bx bxl-facebook'></i></a>
-                    <a href="https://www.tiktok.com/@corporaciongruponet?_t=8XLtCWDKPvZ&_r=1" target="_blank" class="footer__social-link"><i class='bx bxl-tiktok'></i></a>
-                    <a href="https://instagram.com/corporaciongruponet?igshid=YmMyMTA2M2Y=" target="_blank" class="footer__social-link"><i class='bx bxl-instagram'></i></a>
-                    <a href="https://www.youtube.com/channel/UCahpSqJDrtVHFGCgXSHcpaA" target="_blank" class="footer__social-link"><i class='bx bxl-youtube'></i></a>
-                </ul>
-                <div class="footer__content-logo">
-                    <img class="logo_redes-footer" src="/assets/img/logo-redes.webp" alt="logo-redes">
+</main> <section class="features-section">
+        <div class="header-container">
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-box__icon">
+                        <i class='bx bx-shield-quarter'></i>
+                    </div>
+                    <h3 class="feature-box__title">Compra con Seguridad</h3>
+                    <p class="feature-box__text">Utilizamos tecnología de punta para proteger tu información en cada transacción.</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-box__icon">
+                        <i class='bx bx-rocket'></i>
+                    </div>
+                    <h3 class="feature-box__title">Envíos a Nivel Nacional</h3>
+                    <p class="feature-box__text">Recibe tus productos en la puerta de tu casa, estés donde estés en Perú.</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-box__icon">
+                        <i class='bx bx-support'></i>
+                    </div>
+                    <h3 class="feature-box__title">Soporte Especializado</h3>
+                    <p class="feature-box__text">Nuestro equipo de expertos está listo para ayudarte con cualquier consulta técnica.</p>
                 </div>
             </div>
         </div>
-        <span class="footer__copy">© Gruponet 2025. All rights reserved</span>
+    </section>
+
+    <footer class="main-footer">
+        <div class="header-container">
+            <div class="footer-main-grid">
+                <div class="footer-column">
+                    <h3 class="footer-column__title">Información</h3>
+                    <ul class="footer-column__list">
+                        <li><a href="https://www.google.com/maps/place/Gruponet/@-11.9457532,-77.0628188,17z/data=!3m1!4b1!4m6!3m5!1s0x9105d1d39637f4f3:0x8d76e2f2ab859a57!8m2!3d-11.9457585!4d-77.0602439!16s%2Fg%2F11c1qcgsk_" target="_blank">Av. Universitaria 6504, Comas 15312, Lima, Perú</a></li>
+                        <li><a href="#">Celular: +51 961146060</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-column__title">Servicios</h3>
+                    <ul class="footer-column__list">
+                        <li><a href="/services">Servicio Electrónico</a></li>
+                        <li><a href="/services">Servicio Técnico</a></li>
+                        <li><a href="https://wa.me/51961146060?text=DIAGNOSTICO" target="_blank">Diagnóstico</a></li>
+                        <li><a href="https://wa.me/51961146060?text=MANTENIMIENTO" target="_blank">Mantenimiento</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-column__title">Sobre Nosotros</h3>
+                    <ul class="footer-column__list">
+                        <li><a href="https://wa.me/51961146060?text=CONSULTA" target="_blank">Centro de Ayuda</a></li>
+                        <li><a href="/envios">Atención al Cliente</a></li>
+                        <li><a href="/about-us">Nosotros</a></li>
+                        <li><a href="/copyright">CopyRight</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-column__title">Métodos de Pago</h3>
+                    <div class="footer-logos-container">
+                        <img src="/assets/uploads/payments/yape.png" alt="Yape">
+                        <img src="/assets/uploads/payments/plin.png" alt="Plin">
+                        <img src="/assets/uploads/payments/bcp.jpg" alt="BCP">
+                        <img src="/assets/uploads/payments/bbva.png" alt="BBVA">
+                        <img src="/assets/uploads/payments/interbank.png" alt="InterBank">
+                        <img src="/assets/uploads/payments/scotiabank.jpg" alt="ScotiaBank">
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-column__title">¡Contáctanos!</h3>
+                    <ul class="footer-column__list">
+                        <li>
+                            <div class="footer-social-icons">
+                                <a href="https://wa.me/51961146060" target="_blank" title="WhatsApp"><i class='bx bxl-whatsapp'></i></a>
+                                <a href="https://www.facebook.com/corporaciongruponet" target="_blank" title="Facebook"><i class='bx bxl-facebook-square'></i></a>
+                                <a href="https://instagram.com/corporaciongruponet" target="_blank" title="Instagram"><i class='bx bxl-instagram-alt'></i></a>
+                                <a href="https://www.youtube.com/channel/UCahpSqJDrtVHFGCgXSHcpaA" target="_blank" title="YouTube"><i class='bx bxl-youtube'></i></a>
+                                <a href="https://www.tiktok.com/@corporaciongruponet" target="_blank" title="TikTok"><i class='bx bxl-tiktok'></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-copyright">
+            <div class="header-container">
+                <span>© Gruponet 2025. Todos los derechos reservados.</span>
+            </div>
+        </div>
     </footer>
-
-    <a href="#" class="scrollup" id="scroll-up">
-        <i class='bx bx-up-arrow-alt scrollup__icon'></i>
-    </a>
-
-    <a href="https://api.whatsapp.com/send/?phone=51961146060&text&type=phone_number&app_absent=0" target="_blank" class="scrollup1" id="scroll-up1">
-        <i class='bx bxl-whatsapp scrollup__icon1'></i>
-    </a>
 
     <script src="/assets/js/scrollreveal.min.js"></script>
     <script src="/assets/js/swiper-bundle.min.js"></script>
-
+    
     <script src="/assets/js/main.js"></script>
     
     <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>

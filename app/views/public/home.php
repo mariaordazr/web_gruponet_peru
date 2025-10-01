@@ -1,75 +1,69 @@
 <?php include ROOT_PATH . 'app/views/templates/header.php'; ?>
 
 <section class="home" id="home">
-    <div class="slider">
-        <?php foreach ($sliderImages as $fileName) { ?>
-            <img src="/assets/uploads/sliderImages/<?php echo htmlspecialchars($fileName); ?>" alt="Slider Image" class="home__img active">
-        <?php } ?>
-    </div>
-
-    <div class="home__container container1 grid1">
-        <div class="home__data">
-            <span class="home__data-subtitle">Bienvenidos</span>
-            <h1 class="home__data-title">Corporación <br><b>GRUPONET SAC</b></h1>
-            <a href="https://api.whatsapp.com/send/?phone=51961146060&text&type=phone_number&app_absent=0" target="_blank" class="button">Contáctanos</a>
+    <div class="swiper home-slider">
+        <div class="swiper-wrapper">
+            <?php foreach ($sliderImages as $imageName): ?>
+                <div class="swiper-slide">
+                    <img src="/assets/uploads/sliderImages/<?php echo htmlspecialchars($imageName); ?>" alt="Slider de Gruponet">
+                </div>
+            <?php endforeach; ?>
         </div>
+        
+        <div class="swiper-pagination"></div>
 
-        <div class="home__social">
-            <a href="https://www.facebook.com/corporaciongruponet" target="_blank" class="home__social-link">
-                <i class='bx bxl-facebook-square'></i>
-            </a>
-            <a href="https://instagram.com/corporaciongruponet?igshid=YmMyMTA2M2Y=" target="_blank" class="home__social-link">
-                <i class='bx bxl-instagram-alt'></i>
-            </a>
-            <a href="https://www.youtube.com/channel/UCahpSqJDrtVHFGCgXSHcpaA" target="_blank" class="home__social-link">
-                <i class='bx bxl-youtube'></i>
-            </a>
-        </div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
     </div>
 </section>
-
-<section class="products section">
-    <h2 class="section__title">RECIÉN LLEGADOS</h2>
-    <div class="products__container bd-grid">
-        <?php foreach ($newProducts as $newProduct) { ?>
-            <article class="card">
-                <div class="card__img">
-                    <?php
-                        $rutaImagen = "/assets/uploads/products/" . $newProduct['file_name'];
-                    ?>
-                    <img src="<?php echo htmlspecialchars($rutaImagen); ?>" alt="<?php echo htmlspecialchars($newProduct['name']); ?>">
-                </div>
-                <div class="card__name">
-                    <p><?php echo htmlspecialchars($newProduct['name']); ?></p>
-                </div>
-                <div class="card__precis">
-                    <a target="_self" href="/productos-recien?id=<?php echo $newProduct['id_new_product']; ?>" class="card__icon"><ion-icon name="add-circle-outline"></ion-icon></a>
-                    <div>
-                        <span class="card__preci card__preci--now">S/. <?php echo htmlspecialchars($newProduct['price']); ?></span>
+<section class="product-showcase section">
+    <div class="container">
+        <h2 class="section__title">Recién Llegados</h2>
+        
+        <div class="product-grid">
+            <?php foreach ($newProducts as $product): ?>
+                <a href="/product/<?php echo $product['id_new_product']; ?>" class="product-card">
+                    <div class="product-card__image">
+                        <img src="/assets/uploads/products/<?php echo htmlspecialchars($product['file_name']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
                     </div>
-                    <a href="https://wa.me/51961146060?text=<?php echo urlencode('Hola, estoy interesado en el producto ' . $newProduct['name'] . '.'); ?>" target="_blank" class="card__icon"><ion-icon name="logo-whatsapp"></ion-icon></a>
-                </div>
-            </article>
-        <?php } ?>
+                    <div class="product-card__content">
+                        <p class="product-card__title"><?php echo htmlspecialchars($product['name']); ?></p>
+                        <div class="product-card__price">
+                            <span>S/. <?php echo htmlspecialchars(number_format($product['price'], 2)); ?></span>
+                        </div>
+                        <div class="product-card__shipping">
+                            Envío a todo el Perú
+                        </div>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        </div>
     </div>
 </section>
 
-<section class="featured section container" id="featured">
-    <h2 class="section__title">liquidación</h2>
-    <div class="featured__container grid">
-        <?php foreach ($offers as $offer) { ?>
-            <article class="featured__card">
-                <span class="featured__tag">OFERTAS</span>
-                <img src="/assets/uploads/products/<?php echo htmlspecialchars($offer['file_name']); ?>" alt="" class="featured__img">
-                <div class="featured__data">
-                    <h3 class="featured__title"><?php echo htmlspecialchars($offer['message']); ?></h3>
-                    <span class="featured__price">S/. <?php echo htmlspecialchars($offer['price']); ?></span>
-                </div>
-                <a href="https://wa.me/51961146060?text=<?php echo urlencode('Hola, estoy interesado en la oferta de ' . $offer['message'] . '.'); ?>" target="_blank">
-                    <button class="button featured__button">OFERTA ESPECIAL</button>
+<section class="product-showcase section">
+    <div class="container">
+        <h2 class="section__title">Ofertas</h2>
+
+        <div class="product-grid">
+            <?php foreach ($offers as $offer): ?>
+                <a href="/offer/<?php echo $offer['product_id']; // Asumiendo que necesitas un ID de producto ?>" class="product-card">
+                    <div class="product-card__image">
+                        <img src="/assets/uploads/products/<?php echo htmlspecialchars($offer['file_name']); ?>" alt="<?php echo htmlspecialchars($offer['message']); ?>">
+                        <span class="product-card__tag">OFERTA</span>
+                    </div>
+                    <div class="product-card__content">
+                        <p class="product-card__title"><?php echo htmlspecialchars($offer['message']); ?></p>
+                        <div class="product-card__price">
+                            <span>S/. <?php echo htmlspecialchars(number_format($offer['price'], 2)); ?></span>
+                        </div>
+                         <div class="product-card__shipping">
+                            ¡Aprovecha!
+                        </div>
+                    </div>
                 </a>
-            </article>
-        <?php } ?>
+            <?php endforeach; ?>
+        </div>
     </div>
 </section>
 

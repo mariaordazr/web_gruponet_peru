@@ -1,64 +1,86 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="/assets/img/logo2.png" type="image/png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="shortcut icon" href="/assets/uploads/logo/gruponet.webp" type="image/x-icon">
+    <title>Corporación GRUPONET</title>
     
-
-    <title>GRUPONET</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/swiper-bundle.min.css">
 </head>
-
 <body>
-    <header class="header" id="header">
-        <nav class="nav container">
-            <div class="div__logo">
-                <a href="/" class="nav__logo">
-                    <img src="/assets/img/logo2.png" alt="Logo Gruponet" class="nav__logo-icon">GRUPONET
-                </a>
-            </div>
 
-            <div class="nav__menu" id="nav-menu">
-                <ul class="nav__list">
-                    <li class="nav__item">
-                        <a href="/" class="nav__link active">Inicio</a>
+<header class="main-header" id="header">
+    <div class="header-container">
+        <div class="header-top">
+            <a href="/" class="header-logo">
+                <img src="/assets/img/gruponet.png" alt="Logo Gruponet">
+            </a>
+
+            <form class="header-search">
+                <input type="text" class="header-search__input" placeholder="Buscar productos, marcas y más...">
+                <button type="submit" class="header-search__button">
+                    <i class='bx bx-search'></i>
+                </button>
+            </form>
+            
+            <div class="header-mobile-toggle" id="mobile-menu-button">
+                <i class='bx bx-menu'></i>
+            </div>
+        </div>
+
+        <div class="header-bottom" id="nav-menu">
+            <nav class="header-nav">
+                <ul class="nav-list">
+                    <li class="nav-item nav-item--location">
+                        <i class='bx bx-map'></i>
+                        <span>Ubicados en<br><b>Lima, Perú</b></span>
                     </li>
-                    <li class="nav__item">
-                        <a href="/producs" class="nav__link">Productos</a>
+                    <li class="nav-item nav-item--dropdown">
+                        <a href="#" class="nav-link" data-dropdown-toggle="categories-dropdown">Categorías <i class='bx bx-chevron-down'></i></a>
+                        <div id="categories-dropdown" class="dropdown-menu">
+                            <ul>
+                                <?php if (!empty($categories)): ?>
+                                    <?php foreach ($categories as $category): ?>
+                                        <li><a href="/category/<?php echo $category['id_category']; ?>"><?php echo htmlspecialchars(ucwords(strtolower($category['name']))); ?></a></li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
                     </li>
-                    <li class="nav__item">
-                        <a href="/services" class="nav__link">Servicios</a>
+                    
+                    <li class="nav-item nav-item--dropdown">
+                        <a href="#" class="nav-link" data-dropdown-toggle="brands-dropdown">Marcas <i class='bx bx-chevron-down'></i></a>
+                        <div id="brands-dropdown" class="dropdown-menu">
+                            <ul>
+                                <?php if (!empty($brands)): ?>
+                                    <?php foreach ($brands as $brand): ?>
+                                        <li><a href="/brand/<?php echo $brand['id_brand']; ?>"><?php echo htmlspecialchars(ucwords(strtolower($brand['name']))); ?></a></li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
                     </li>
-                    <li class="nav__item">
-                        <a href="/about-us" class="nav__link">Nosotros</a>
-                    </li>
-                    <li class="nav__item">
-                        <a href="/shipping" class="nav__link">Envíos</a>
-                    </li>
+
+                    <li class="nav-item"><a href="/recien-llegados" class="nav-link">Recién llegados</a></li>
+                    <li class="nav-item"><a href="/ofertas" class="nav-link">Ofertas</a></li>
+                    <li class="nav-item"><a href="/services" class="nav-link">Servicios</a></li>
                 </ul>
+            </nav>
 
-                <div class="nav__close" id="nav-close">
-                    <i class='bx bx-x'></i>
-                </div>
-            </div>
+            <nav class="header-user-nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="/about-us" class="nav-link">Nosotros</a></li>
+                    <li class="nav-item"><a href="/carrito" class="nav-link"><i class='bx bx-cart'></i> Carrito</a></li>
+                    <li class="nav-item"><a href="/auth/login" class="nav-link">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
 
-            <div class="nav__btns">
-                <div class="nav__shop" id="cart-shop">
-                    <a href="/productos" class="nav__shop">
-                        <i class='bx bx-search-alt'></i>
-                    </a>
-                </div>
-
-                <div class="nav__toggle" id="nav-toggle">
-                    <i class='bx bx-grid-alt'></i>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <main class="main">
+<main class="main-content">

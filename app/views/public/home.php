@@ -15,7 +15,7 @@
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
     </div>
-</section>
+</section> 
 <section class="product-showcase section">
     <div class="container">
         <h2 class="section__title">Recién Llegados</h2>

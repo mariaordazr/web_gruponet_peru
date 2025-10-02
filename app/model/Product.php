@@ -114,12 +114,14 @@ class Product {
     public function getAll(string $searchTerm = '', int $start = 0, int $limit = 20): array
     {
         // Consulta base para obtener productos, categorías, marcas e imágenes.
-        $query = "SELECT p.id_product, p.name, c.name AS category_name, b.name AS brand_name, 
-                         p.description, p.price, p.stock, i.file_name
-                  FROM products p
-                  JOIN categories c ON p.category = c.id_category
-                  JOIN brands b ON p.brand = b.id_brand
-                  LEFT JOIN product_images i ON p.id_product = i.product";
+        $query = "SELECT 
+                p.id_product,
+                p.name, 
+                p.price, 
+                pi.file_name
+              FROM products p
+              LEFT JOIN product_images pi ON p.id_product = pi.product
+              GROUP BY p.id_product";
 
         // Añadir condiciones de búsqueda si hay un término.
         if (!empty($searchTerm)) {
@@ -128,7 +130,7 @@ class Product {
         }
 
         // Ordenar y limitar para la paginación.
-        $query .= " ORDER BY p.id_product ASC LIMIT {$start}, {$limit}";
+        // $query .= " ORDER BY p.id_product ASC LIMIT {$start}, {$limit}";
 
         $result = $this->db->query($query);
         

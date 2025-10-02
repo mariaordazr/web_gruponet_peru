@@ -48,37 +48,28 @@ class Offer
      * @param int|null $productId El ID del producto (opcional).
      * @return array
      */
-    public function getAll(?int $productId = null): array
-    {
-        $query = "SELECT 
-                    p.price, 
-                    o.message, 
-                    pi.file_name
-                  FROM offers o
-                  JOIN products p ON o.product = p.id_product
-                  LEFT JOIN product_images pi ON p.id_product = pi.product";
-        
-        if ($productId !== null) {
-            $query .= " WHERE o.product = ?";
+    public function getAll(): array
+{
+    $query = "SELECT 
+                p.name, /* <-- AÑADE ESTA LÍNEA */
+                p.price AS original_price, 
+                o.price AS offer_price,
+                o.message, 
+                pi.file_name,
+                o.product AS product_id
+              FROM offers o
+              JOIN products p ON o.product = p.id_product
+              LEFT JOIN product_images pi ON p.id_product = pi.product";
+    
+    $result = $this->db->query($query);
+    $offers = [];
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $offers[] = $row;
         }
-        $query .= " ORDER BY o.id_offer ASC";
-
-        $stmt = $this->db->prepare($query);
-        if ($productId !== null) {
-            $stmt->bind_param("i", $productId);
-        }
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        $offers = [];
-        if ($result) {
-            while ($row = $result->fetch_assoc()) {
-                $offers[] = $row;
-            }
-        }
-        $stmt->close();
-        return $offers;
     }
+    return $offers;
+}
 
     /**
      * Actualiza una oferta existente.

@@ -30,5 +30,62 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     });
 
-    // El código personalizado para pausar en las flechas ya no es necesario y ha sido eliminado.
+    new Swiper('.product-page-carousel', {
+        slidesPerView: 2,
+        spaceBetween: 15,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            640: { slidesPerView: 3, spaceBetween: 20 },
+            768: { slidesPerView: 4, spaceBetween: 20 },
+            1024: { slidesPerView: 5, spaceBetween: 20 },
+        }
+    });
+
+
+    /*=============== INITIALIZE OFFERS CAROUSEL ===============*/
+    new Swiper('.offers-carousel', {
+        // slidesPerView: 'auto' es ideal para slides con ancho fijo
+        slidesPerView: 'auto',
+        spaceBetween: 15, // Espacio entre las tarjetas
+        
+        // Navegación con flechas
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+
+    //*=============== INITIALIZE DISCOVER CAROUSEL ===============*/
+    new Swiper('.discover-carousel', {
+        slidesPerView: 2,
+        spaceBetween: 15,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            640: { slidesPerView: 3, spaceBetween: 20 },
+            768: { slidesPerView: 4, spaceBetween: 20 },
+            1024: { slidesPerView: 5, spaceBetween: 20 },
+        }
+    });
+
+    /*=============== DISCOVER TABS LOGIC ===============*/
+    const tabs = document.querySelectorAll('.discover-tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            // Quita la clase activa de todas las pestañas
+            tabs.forEach(t => t.classList.remove('is-active'));
+            
+            // Añade la clase activa a la pestaña clickeada
+            this.classList.add('is-active');
+            
+            // Aquí iría la lógica para cambiar los productos del carrusel (Paso avanzado)
+        });
+    });
 });

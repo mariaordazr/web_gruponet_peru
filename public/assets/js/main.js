@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // General reveals that might be on all pages
-    sr.reveal(`.section__title`);
+    // sr.reveal(`.section__title`);
     sr.reveal(`.footer__container`);
 
 });

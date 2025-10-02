@@ -370,16 +370,17 @@ img {
 /*==================== HOME SLIDER STYLES (VERSIÓN DEFINITIVA) ====================*/
 .home-slider.swiper {
     width: 100%;
-    height: 40vh; /* CAMBIO: Slider más alto, ajústalo si lo deseas */
+    height: 30vh; /* CAMBIO: Slider más alto, ajústalo si lo deseas */
     position: relative;
     
     /* CORRECCIÓN POTENTE: Sobreescribimos las variables de Swiper */
     --swiper-navigation-sides-offset: 0px; /* Pega las flechas a los bordes */
     --swiper-navigation-size: 20px; /* CAMBIO: Controla directamente el tamaño del icono de la flecha */
+    
 }
 
 /* Efecto de desvanecimiento en la parte inferior */
-.home-slider.swiper::after {
+/* .home-slider.swiper::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -389,7 +390,7 @@ img {
     background: linear-gradient(to top, var(--color-background), transparent);
     z-index: 2;
     pointer-events: none;
-}
+} */
 
 .swiper-slide img {
     display: block;
@@ -441,93 +442,291 @@ img {
     background-color: var(--color-primary);
 }
 
-/* ======================= PRODUCT SHOWCASE & CARDS ===========================*/
-.product-showcase .section__title {
-    font-size: var(--h1-font-size);
-    margin-bottom: 1.5rem;
+/* ======================= PRODUCT PAGE CAROUSEL ===========================*/
+.product-page-carousel.swiper {
+    position: relative;
+    padding: 0.5rem; /* Pequeño padding para que las sombras de las tarjetas no se corten */
+    margin: 0 1rem; /* Margen para que no esté pegado a los bordes */
 }
 
-.product-grid {
-    display: grid;
-    /* Crea una rejilla responsive: se ajusta el número de columnas según el ancho */
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1.5rem;
+/* Estilo para las flechas de este carrusel */
+.product-page-carousel .swiper-button-next,
+.product-page-carousel .swiper-button-prev {
+    color: var(--color-primary);
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    z-index: 10;
 }
 
-.product-card {
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    text-decoration: none;
-    color: var(--color-text);
-    display: flex;
-    flex-direction: column;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-    border: 1px solid #eee;
+.product-page-carousel .swiper-button-next::after,
+.product-page-carousel .swiper-button-prev::after {
+    font-size: 1rem;
+    font-weight: bold;
 }
-
-.product-card:hover {
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    transform: translateY(-5px);
+.product-card__inner {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1.5px solid #bbbbbb;
+    background-color: #FFFFFF;
 }
 
 .product-card__image {
+    background-color: #7b7b7b;
+    padding: 10px;
+    margin-bottom: 10px;
     width: 100%;
-    /* Mantiene la proporción de la imagen */
-    aspect-ratio: 1 / 1; 
+    aspect-ratio: 1 / 1; /* ESTA LÍNEA HACE QUE EL CONTENEDOR SEA CUADRADO */
     position: relative;
-    overflow: hidden;
+    overflow: hidden; /* Oculta cualquier parte de la imagen que se desborde */
 }
 
 .product-card__image img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Asegura que la imagen cubra el espacio */
+    object-fit: cover; /* ESTA LÍNEA EVITA LA DISTORSIÓN */
 }
 
-.product-card__tag {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: var(--color-acento);
-    color: #fff;
-    padding: 0.25rem 0.5rem;
-    font-size: var(--smaller-font-size);
+
+
+/* ======================= SECCIÓN DE OFERTAS (GRID) ===========================*/
+.offers-section-box {
+    background-color: transparent;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.offers-grid-section {
+    background-color: transparent;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.section-header {
+    display: block;
+    text-align-last: center;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-header__link {
+    color: var(--color-primario);
+    font-size: 0.9rem;
     font-weight: 500;
-    border-radius: 4px;
 }
 
-.product-card__content {
-    padding: 1rem;
-    border-top: 1px solid #eee;
+/* ESTA ES LA REGLA CLAVE QUE FALTABA */
+.offers-container {
+    margin: 10%;
+}
+
+.offers-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+    align-items: stretch; /* Asegura que las columnas tengan la misma altura */
+}
+
+.offers-grid__products {
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Hace que el contenido ocupe el espacio sobrante */
+    gap: 1rem;
 }
 
+/* .offers-grid__products .product-card { */
+    /* flex-grow: 1; Hace que ambas tarjetas ocupen el espacio disponible */
+    /* display: flex; */
+    
+    /* border: 1px solid #f0f0f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); */
+/* } */
+
+/* Ajuste para las tarjetas en esta sección */
 .product-card__title {
-    font-size: var(--normal-font-size);
-    font-weight: 400;
-    line-height: 1.4;
-    /* Limita el título a 2 líneas para un diseño uniforme */
+    font-size: 1rem; /* O el tamaño que prefieras */
+    font-weight: 500;
+    line-height: 1.4; /* Espacio entre líneas */
+    min-height: 2.45em; /* Asegura un espacio mínimo para 2 líneas (1.4 * 2 * 0.875) */
+    margin-bottom: 0.25rem;
+
+    /* --- CÓDIGO PARA LIMITAR EL TEXTO A 2 LÍNEAS --- */
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 2; /* El número máximo de líneas que quieres mostrar */
     line-clamp: 2;
     -webkit-box-orient: vertical;  
     overflow: hidden;
-    margin-bottom: 0.5rem;
-    flex-grow: 1; /* Empuja el precio hacia abajo */
+    text-overflow: ellipsis;
 }
 
+/* Estilos para el precio de oferta */
 .product-card__price {
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--color-primario);
-    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--color-text);
+    display: flex;
+    flex-direction: column; /* Pone un precio encima del otro */
+    align-items: flex-start;
 }
 
-.product-card__shipping {
-    font-size: var(--small-font-size);
-    color: var(--color-acento);
+.original-price {
+    font-size: 0.8rem;
+    color: #999;
+    text-decoration: line-through; /* Tacha el precio */
+}
+
+.offer-price {
+    font-size: 1.25rem; /* Mantenemos el tamaño del precio de oferta */
+    font-weight: 800;
+    color: var(--color-primario);
+}
+
+/* ======================= OFFERS CAROUSEL ===========================*/
+.offers-carousel.swiper {
+    position: relative;
+    padding: 0.5rem; /* Pequeño padding para que las sombras no se corten */
+}
+
+.offer-card {
+    display: block;
+    width: 150px; /* Ancho solicitado */
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    border: 1px solid #eee;
+    transition: box-shadow 0.3s;
+}
+
+.offer-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.offer-card__image {
+    height: 150px; /* Altura solicitada */
+    aspect-ratio: 3 / 4; /* Proporción solicitada */
+}
+
+.offer-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.offer-card__content {
+    padding: 0.75rem;
+}
+
+.offer-card__price {
+    font-size: 1.1rem;
     font-weight: 500;
+    color: var(--color-text);
+}
+
+.offer-card__discount {
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 0;
+    padding: 5px;
+    background-color: #ff3b3b;
+}
+
+/* Estilos para las flechas de este carrusel específico */
+.offers-carousel .swiper-button-next,
+.offers-carousel .swiper-button-prev {
+    color: var(--color-primary);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.offers-carousel .swiper-button-next::after,
+.offers-carousel .swiper-button-prev::after {
+    font-size: 1.5rem;
+}
+
+/* ======================= AJUSTES PARA TARJETAS DE OFERTAS (GRID) ===========================*/
+
+/* Le da un estilo de "frame" más pronunciado a las tarjetas de la sección de ofertas */
+.offers-grid__products .product-card {
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-radius: 8px; /* Aseguramos que el borde sea redondeado */
+}
+
+/* Define una altura fija y uniforme para el contenedor de la imagen */
+.offers-grid__products {
+    height: 150px; /* PUEDES AJUSTAR ESTA ALTURA COMO DESEES */
+    aspect-ratio: unset; /* Anulamos la proporción automática para usar una altura fija */
+}
+
+.offers-grid__products img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* La imagen se ajusta para cubrir el contenedor sin deformarse */
+}
+
+/* ======================= SECCIÓN DESCUBRE (CARRUSEL CON PESTAÑAS) ===========================*/
+.discover-box {
+    background-color: transparent;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.discover-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.discover-tabs {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.discover-tab {
+    color: var(--text-color-light);
+    font-weight: 500;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.discover-tab:hover {
+    color: var(--color-primario);
+}
+
+.discover-tab.is-active {
+    color: var(--color-primario);
+    border-bottom-color: var(--color-primario);
+}
+
+.discover-carousel.swiper {
+    position: relative;
+}
+
+.products-container {
+    margin: 40px; /* Margen para que no esté pegado a los bordes */
+}
+
+.products-box {
+    background-color: transparent;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.product-page-carousel {
+    /* margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: 40px;
+    margin-right: 40px; */
+    padding-top: 40px;
+    padding-bottom: 40px;
+    border: 1.5px solid #bbbbbb;
 }

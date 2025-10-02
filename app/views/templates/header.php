@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="shortcut icon" href="/assets/uploads/logo/gruponet.webp" type="image/x-icon">
-    <title>Corporación GRUPONET</title>
+    <link rel="icon" type="image/x-icon" href="/assets/logo/gruponet.webp">
+    <title>Corporación Gruponet</title>
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     
-    <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/swiper-bundle.min.css">
+    
+    <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 <body>
 

@@ -6,6 +6,7 @@ require_once ROOT_PATH . 'app/model/Offer.php';
 require_once ROOT_PATH . 'app/model/NewProduct.php';
 require_once ROOT_PATH . 'app/model/Category.php';
 require_once ROOT_PATH . 'app/model/Brand.php';
+require_once ROOT_PATH . 'app/model/Product.php'; 
 
 class PublicController {
     protected $db; // Asegúrate de tener la conexión a la BD disponible
@@ -30,6 +31,11 @@ class PublicController {
         // --- Fin de Cargar datos para el Header ---
 
         // Obtener datos para la página de inicio desde los modelos
+
+        // Obtenemos todos los productos
+        $productModel = new Product($this->db);
+        $products = $productModel->getAll();
+
         $offers = $this->offerModel->getAll(); // Obtiene todas las ofertas
         $newProducts = $this->newProductModel->getAll(); // Obtiene todos los productos "recién llegados"
         $sliderImagesPath = ROOT_PATH . 'public/assets/uploads/sliderImages/';

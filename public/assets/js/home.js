@@ -38,9 +38,21 @@ document.addEventListener('DOMContentLoaded', function() {
             prevEl: '.swiper-button-prev',
         },
         breakpoints: {
-            640: { slidesPerView: 3, spaceBetween: 20 },
-            768: { slidesPerView: 4, spaceBetween: 20 },
-            1024: { slidesPerView: 5, spaceBetween: 20 },
+            // para pantallas de 320px o más
+            320: {
+              slidesPerView: 2,
+              spaceBetween: 10,
+            },
+            // para pantallas de 768px o más
+            768: {
+              slidesPerView: 4, // Ajustado para una mejor progresión
+              spaceBetween: 15,
+            },
+            // para pantallas de 1024px o más
+            1024: {
+              slidesPerView: 6, // <-- CAMBIO PRINCIPAL: de 5 a 6
+              spaceBetween: 20,
+            },
         }
     });
 

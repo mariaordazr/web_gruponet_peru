@@ -76,11 +76,11 @@ class NewProduct
         $query = "SELECT 
                     p.name, 
                     p.price, 
-                    pi.file_name,
+                    pi.file_name, 
                     np.id_new_product
-                  FROM new_products np
-                  JOIN products p ON np.product = p.id_product
-                  LEFT JOIN product_images pi ON p.id_product = pi.product";
+                FROM new_products np
+                JOIN products p ON np.product = p.id_product
+                LEFT JOIN product_images pi ON p.id_product = pi.product";
         
         $result = $this->db->query($query);
         $newProducts = [];

@@ -111,38 +111,29 @@ class Product {
      * @param int $limit La cantidad de productos a obtener.
      * @return array
      */
-    public function getAll(string $searchTerm = '', int $start = 0, int $limit = 20): array
-    {
-        // Consulta base para obtener productos, categorías, marcas e imágenes.
-        $query = "SELECT 
-                p.id_product,
-                p.name, 
-                p.price, 
+    public function getAll(): array
+{
+    $query = "SELECT 
+                p.id_product, p.name, p.price, p.stock,
+                c.name AS category_name,
+                b.name AS brand_name,
                 pi.file_name
               FROM products p
+              LEFT JOIN categories c ON p.category = c.id_category
+              LEFT JOIN brands b ON p.brand = b.id_brand
               LEFT JOIN product_images pi ON p.id_product = pi.product
-              GROUP BY p.id_product";
-
-        // Añadir condiciones de búsqueda si hay un término.
-        if (!empty($searchTerm)) {
-            $searchTerm = "%" . $this->db->real_escape_string($searchTerm) . "%";
-            $query .= " WHERE p.name LIKE '{$searchTerm}' OR c.name LIKE '{$searchTerm}' OR b.name LIKE '{$searchTerm}'";
+              GROUP BY p.id_product
+              ORDER BY p.id_product DESC";
+    
+    $result = $this->db->query($query);
+    $products = [];
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $products[] = $row;
         }
-
-        // Ordenar y limitar para la paginación.
-        // $query .= " ORDER BY p.id_product ASC LIMIT {$start}, {$limit}";
-
-        $result = $this->db->query($query);
-        
-        $products = [];
-        if ($result) {
-            while ($row = $result->fetch_assoc()) {
-                $products[] = $row;
-            }
-        }
-        
-        return $products;
     }
+    return $products;
+}
 
     /**
      * Obtiene el conteo total de productos para la paginación.

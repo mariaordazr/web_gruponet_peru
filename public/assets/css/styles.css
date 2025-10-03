@@ -4,7 +4,7 @@
     /* Color Palette */
     --color-primary: #000;        /* Antes: --color-primario */
     --color-accent: #3356a1;      /* Antes: --color-acento */
-    --color-background: #EDEDED;  /* Antes: --color-fondo */
+    --color-background: #ededed;  /* Antes: --color-fondo */
     --color-text: #313131;        /* Antes: --color-texto */
     --color-text-light-medium: #c6c6c6;  /* Antes: --color-fondo */
     --color-text-light: #FFFFFF;  /* Antes: --color-texto-claro */
@@ -30,6 +30,7 @@ body {
     font-size: var(--font-size-normal);
     background-color: var(--color-background);
     color: var(--color-text);
+    min-height: 100%;
 }
 
 a {
@@ -55,9 +56,9 @@ img {
 }
 
 .header-container {
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 3rem;
 }
 
 .header-top {
@@ -78,7 +79,7 @@ img {
     background-color: #fff;
     border-radius: 4px;
     overflow: hidden;
-    max-width: 600px;
+    max-width: 1200px;
     transition: box-shadow 0.2s; /* Añade una transición suave */
 }
 
@@ -126,8 +127,9 @@ img {
 }
 
 .nav-link {
-    font-size: 0.875rem;
+    font-size: 1rem;
     transition: opacity 0.3s;
+    padding-left: 1rem;
 }
 
 .nav-link:hover {
@@ -138,7 +140,7 @@ img {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     border: 1px solid transparent;
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
@@ -195,6 +197,7 @@ img {
     position: relative; /* Contenedor para el menú absoluto */
 }
 
+
 .dropdown-menu {
     display: none; /* Oculto por defecto */
     position: absolute;
@@ -213,6 +216,7 @@ img {
     display: block; /* Se muestra con JS */
 }
 
+
 .dropdown-menu ul {
     list-style: none;
     padding: 0;
@@ -225,7 +229,7 @@ img {
     display: block;
     padding: 0.75rem 1.5rem;
     color: var(--color-text-light-medium);
-    font-size: 0.9rem;
+    font-size: 1rem;
     transition: background-color 0.2s;
 }
 
@@ -250,7 +254,7 @@ img {
 }
 
 .feature-box {
-    padding: 0 1.5rem; /* Añadimos padding para compensar el gap eliminado */
+    padding: 0 4rem; /* Añadimos padding para compensar el gap eliminado */
 }
 
 /* Añadimos un borde derecho a todas las cajas EXCEPTO a la última */
@@ -312,6 +316,7 @@ img {
 
 .footer-column__list li {
     margin-bottom: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 .footer-column__list a {
@@ -370,7 +375,7 @@ img {
 /*==================== HOME SLIDER STYLES (VERSIÓN DEFINITIVA) ====================*/
 .home-slider.swiper {
     width: 100%;
-    height: 30vh; /* CAMBIO: Slider más alto, ajústalo si lo deseas */
+    height: 40vh; /* CAMBIO: Slider más alto, ajústalo si lo deseas */
     position: relative;
     
     /* CORRECCIÓN POTENTE: Sobreescribimos las variables de Swiper */
@@ -380,7 +385,7 @@ img {
 }
 
 /* Efecto de desvanecimiento en la parte inferior */
-/* .home-slider.swiper::after {
+.home-slider.swiper::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -390,7 +395,7 @@ img {
     background: linear-gradient(to top, var(--color-background), transparent);
     z-index: 2;
     pointer-events: none;
-} */
+}
 
 .swiper-slide img {
     display: block;
@@ -471,13 +476,21 @@ img {
     padding-bottom: 20px;
     padding-left: 10px;
     padding-right: 10px;
-    border: 1.5px solid #bbbbbb;
-    background-color: #FFFFFF;
+    border-radius: 8px;
+    /* border: 1.5px solid #ededed; */
+    background-color: #fff;
 }
 
+.product-card__inner:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: color 0.5s, border-color 0.5s;
+    cursor: pointer;
+}
+
+
 .product-card__image {
-    background-color: #7b7b7b;
-    padding: 10px;
+    background-color: #ededed;
+    padding: 0;
     margin-bottom: 10px;
     width: 100%;
     aspect-ratio: 1 / 1; /* ESTA LÍNEA HACE QUE EL CONTENEDOR SEA CUADRADO */
@@ -491,20 +504,14 @@ img {
     object-fit: cover; /* ESTA LÍNEA EVITA LA DISTORSIÓN */
 }
 
+.product-card__image img:hover {
+    transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
+    transition: transform 0.3s ease;
+}
 
 
 /* ======================= SECCIÓN DE OFERTAS (GRID) ===========================*/
-.offers-section-box {
-    background-color: transparent;
-    padding: 1.5rem;
-    border-radius: 8px;
-}
 
-.offers-grid-section {
-    background-color: transparent;
-    padding: 1.5rem;
-    border-radius: 8px;
-}
 
 .section-header {
     display: block;
@@ -515,36 +522,10 @@ img {
 }
 
 .section-header__link {
-    color: var(--color-primario);
+    color: var(--color-primary);
     font-size: 0.9rem;
     font-weight: 500;
 }
-
-/* ESTA ES LA REGLA CLAVE QUE FALTABA */
-.offers-container {
-    margin: 10%;
-}
-
-.offers-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1rem;
-    align-items: stretch; /* Asegura que las columnas tengan la misma altura */
-}
-
-.offers-grid__products {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-/* .offers-grid__products .product-card { */
-    /* flex-grow: 1; Hace que ambas tarjetas ocupen el espacio disponible */
-    /* display: flex; */
-    
-    /* border: 1px solid #f0f0f0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05); */
-/* } */
 
 /* Ajuste para las tarjetas en esta sección */
 .product-card__title {
@@ -565,7 +546,7 @@ img {
 
 /* Estilos para el precio de oferta */
 .product-card__price {
-    font-size: 1.1rem;
+    font-size: 1.25rem; /* Mantenemos el tamaño del precio de oferta */
     font-weight: 800;
     color: var(--color-text);
     display: flex;
@@ -579,55 +560,8 @@ img {
     text-decoration: line-through; /* Tacha el precio */
 }
 
-.offer-price {
-    font-size: 1.25rem; /* Mantenemos el tamaño del precio de oferta */
-    font-weight: 800;
-    color: var(--color-primario);
-}
 
-/* ======================= OFFERS CAROUSEL ===========================*/
-.offers-carousel.swiper {
-    position: relative;
-    padding: 0.5rem; /* Pequeño padding para que las sombras no se corten */
-}
-
-.offer-card {
-    display: block;
-    width: 150px; /* Ancho solicitado */
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    text-decoration: none;
-    border: 1px solid #eee;
-    transition: box-shadow 0.3s;
-}
-
-.offer-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.offer-card__image {
-    height: 150px; /* Altura solicitada */
-    aspect-ratio: 3 / 4; /* Proporción solicitada */
-}
-
-.offer-card__image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.offer-card__content {
-    padding: 0.75rem;
-}
-
-.offer-card__price {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--color-text);
-}
-
-.offer-card__discount {
+.product-card__discount {
     font-size: 0.8rem;
     font-weight: bold;
     text-align: center;
@@ -637,88 +571,26 @@ img {
     background-color: #ff3b3b;
 }
 
-/* Estilos para las flechas de este carrusel específico */
-.offers-carousel .swiper-button-next,
-.offers-carousel .swiper-button-prev {
-    color: var(--color-primary);
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.offers-carousel .swiper-button-next::after,
-.offers-carousel .swiper-button-prev::after {
-    font-size: 1.5rem;
-}
 
 /* ======================= AJUSTES PARA TARJETAS DE OFERTAS (GRID) ===========================*/
 
-/* Le da un estilo de "frame" más pronunciado a las tarjetas de la sección de ofertas */
-.offers-grid__products .product-card {
-    border: 1px solid #f0f0f0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    border-radius: 8px; /* Aseguramos que el borde sea redondeado */
-}
-
-/* Define una altura fija y uniforme para el contenedor de la imagen */
-.offers-grid__products {
-    height: 150px; /* PUEDES AJUSTAR ESTA ALTURA COMO DESEES */
-    aspect-ratio: unset; /* Anulamos la proporción automática para usar una altura fija */
-}
-
-.offers-grid__products img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* La imagen se ajusta para cubrir el contenedor sin deformarse */
-}
-
-/* ======================= SECCIÓN DESCUBRE (CARRUSEL CON PESTAÑAS) ===========================*/
-.discover-box {
-    background-color: transparent;
-    padding: 1.5rem;
-    border-radius: 8px;
-}
-
-.discover-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.discover-tabs {
-    display: flex;
-    gap: 1.5rem;
-}
-
-.discover-tab {
-    color: var(--text-color-light);
-    font-weight: 500;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid transparent;
-    transition: color 0.3s, border-color 0.3s;
-}
-
-.discover-tab:hover {
-    color: var(--color-primario);
-}
-
-.discover-tab.is-active {
-    color: var(--color-primario);
-    border-bottom-color: var(--color-primario);
-}
-
-.discover-carousel.swiper {
-    position: relative;
-}
-
 .products-container {
-    margin: 40px; /* Margen para que no esté pegado a los bordes */
+    margin: 2rem 2rem;
+    padding: 0;/* Margen para que no esté pegado a los bordes */
+    /* border: 1.5px solid #bbbbbb; */
 }
 
 .products-box {
     background-color: transparent;
-    padding: 1.5rem;
+    padding: 2rem 0;
     border-radius: 8px;
+    border: 1.5px solid #dbdbdb;
+}
+
+.products-box:hover {
+    /* box-shadow: 0 4px 12px rgba(0,0,0,0.1); */
+    /* background-color: #dbdbdb; */
+    transition: color 0.5s, border-color 0.5s;
 }
 
 .product-page-carousel {
@@ -726,7 +598,139 @@ img {
     margin-bottom: 40px;
     margin-left: 40px;
     margin-right: 40px; */
-    padding-top: 40px;
-    padding-bottom: 40px;
-    border: 1.5px solid #bbbbbb;
+    padding: 0px;
+}
+
+/* ======================= LOGIN PAGE ===========================*/
+.login-page-background {
+    background-color: var(--color-background);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinea arriba para que se vea bien en móvil */
+    padding-top: 5vh;
+    flex-grow: 1; /* O flex: 1 0 auto; */
+}
+
+.login-container {
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+    margin: 3rem;
+    min-height: 100%;
+}
+
+.login-logo {
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+
+.login-logo img {
+    height: 100px;
+}
+
+.login-card {
+    background-color: #fff;
+    padding: 2.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+.login-card h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.alert-error {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--color-primario);
+    box-shadow: 0 0 0 2px rgba(0, 45, 98, 0.2);
+}
+
+.btn-submit {
+    width: 100%;
+    background-color: var(--color-accent);
+    color: var(--color-text-light);
+    padding: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #003366; /* Un azul más oscuro al pasar el mouse */
+}
+
+.login-card__footer {
+    text-align: center;
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--color-background);
+}
+
+.create-account-link {
+    color: var(--color-primary);
+    font-weight: 500;
+}
+
+/* ======================= SIMPLE HEADER (LOGIN PAGE) ===========================*/
+.simple-header {
+    background-color: #000000; /* Fondo negro */
+    padding: 1rem 0;
+    width: 100%;
+}
+
+.simple-header__container {
+    max-width: 1200px; /* Ancho máximo del contenido */
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.simple-header__logo img {
+    height: 40px; /* Altura del logo */
+}
+
+/* Ajuste para que el formulario no quede tan pegado arriba */
+/* .login-page-background { */
+    /* align-items: center; */
+/* } */
+
+.main-content {
+    flex-grow: 1; /* O flex: 1 0 auto; */
 }

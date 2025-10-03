@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="/assets/logo/gruponet.webp">
+    <link rel="icon" type="image/x-icon" href="/assets/uploads/logo/gruponet.webp">
     <title>Corporación Gruponet</title>
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -53,7 +53,7 @@
                         </div>
                     </li>
                     
-                    <li class="nav-item nav-item--dropdown">
+                    <!-- <li class="nav-item nav-item--dropdown">
                         <a href="#" class="nav-link" data-dropdown-toggle="brands-dropdown">Marcas <i class='bx bx-chevron-down'></i></a>
                         <div id="brands-dropdown" class="dropdown-menu">
                             <ul>
@@ -64,8 +64,9 @@
                                 <?php endif; ?>
                             </ul>
                         </div>
-                    </li>
+                    </li> -->
 
+                    <li class="nav-item"><a href="/productos" class="nav-link">Productos</a></li>
                     <li class="nav-item"><a href="/recien-llegados" class="nav-link">Recién llegados</a></li>
                     <li class="nav-item"><a href="/ofertas" class="nav-link">Ofertas</a></li>
                     <li class="nav-item"><a href="/services" class="nav-link">Servicios</a></li>

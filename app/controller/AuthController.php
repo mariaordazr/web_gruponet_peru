@@ -10,11 +10,13 @@ class AuthController {
     }
 
     public function login() {
-        // ... (Aquí va toda la lógica de login que te mostré antes) ...
-        // Comprueba si ya hay sesión, procesa el POST, valida credenciales, etc.
         $alert = '';
-        session_start();
+        // Iniciar la sesión si no está iniciada
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
 
+        // Si ya hay una sesión activa, redirige al dashboard
         if (!empty($_SESSION['active'])) {
             header('location: /admin/dashboard');
             exit;
@@ -22,14 +24,18 @@ class AuthController {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (empty($_POST['usuario']) || empty($_POST['clave'])) {
-            $alert = 'Ingrese su usuario y su clave';
+                $alert = 'Ingrese su usuario y su clave';
             } else {
-            // Se llama al método con el nombre correcto y la clave sin encriptar
-                $user = $this->userModel->getUserByCredentials($_POST['usuario'], $_POST['clave']);
+                $usuario = $_POST['usuario'];
+                $clave = $_POST['clave']; // CORRECCIÓN: Se envía la clave sin encriptar
+
+                $user = $this->userModel->getUserByCredentials($usuario, $clave);
+
                 if ($user) {
-                // Credenciales correctas
+                    // Credenciales correctas, se inicia la sesión
                     $_SESSION['active'] = true;
-                    $_SESSION['idUser'] = $user['id_user']; // Ajustado al nombre de columna de tu modelo
+                    // CORRECCIÓN: Se usan los nombres de columna correctos de la BD
+                    $_SESSION['idUser'] = $user['id_user']; 
                     $_SESSION['nombre'] = $user['name'];
                     $_SESSION['user'] = $user['username'];
                     
@@ -42,11 +48,14 @@ class AuthController {
             }
         }
 
+        // Carga la vista del formulario de login
         include ROOT_PATH . 'app/views/auth/login.php';
     }
 
     public function logout() {
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         session_destroy();
         header('location: /auth/login');
         exit;

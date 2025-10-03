@@ -19,7 +19,8 @@ class User
     public function getUserByCredentials(string $username, string $password): ?array
     {
         // En tu DB actual, la contraseña está encriptada con MD5
-        $hashedPassword = md5($password);
+        // $hashedPassword = md5($password);
+        $hashedPassword = $password;
         
         $query = "SELECT id_user, username, name, email FROM users WHERE username = ? AND password = ?";
         $stmt = $this->db->prepare($query);

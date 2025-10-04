@@ -16,6 +16,36 @@ class Category
      * @param string $name El nombre de la categoría.
      * @return bool
      */
+    // En app/model/Category.php
+
+    /**
+     * Obtiene todas las categorías y cuenta cuántos productos están asociados a cada una.
+     * @return array
+     */
+    public function getAllWithProductCount(): array
+    {
+        // Usamos LEFT JOIN para asegurarnos de que se listen todas las categorías,
+        // incluso si no tienen productos (contarán como 0).
+        $query = "SELECT 
+                    c.id_category,
+                    c.name,
+                    COUNT(p.id_product) AS product_count
+                FROM categories c
+                LEFT JOIN products p ON c.id_category = p.category
+                GROUP BY c.id_category, c.name
+                ORDER BY c.name ASC";
+        
+        $result = $this->db->query($query);
+        $categories = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $categories[] = $row;
+            }
+        }
+        return $categories;
+    }
+
+
     public function create(string $name): bool
     {
         $insertQuery = "INSERT INTO categories (name) VALUES (?)";

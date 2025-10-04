@@ -4,10 +4,6 @@
         <h3>¡Bienvenido de nuevo, <?php echo htmlspecialchars($_SESSION['nombre'] ?? 'Administrador'); ?>!</h3>
         <h2>Dashboard de Productos</h2>
     </div>
-    <div class="header-admin__search">
-        <input type="text" placeholder="Buscar productos, marcas y más...">
-        <i class='bx bx-search'></i>
-    </div>
     <div class="header-admin__profile">
         <img src="/assets/img/admin-avatar.png" alt="Avatar Admin">
         <span>admin@info.com</span>

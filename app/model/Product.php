@@ -111,29 +111,74 @@ class Product {
      * @param int $limit La cantidad de productos a obtener.
      * @return array
      */
-    public function getAll(): array
-{
-    $query = "SELECT 
-                p.id_product, p.name, p.price, p.stock,
-                c.name AS category_name,
-                b.name AS brand_name,
-                pi.file_name
-              FROM products p
-              LEFT JOIN categories c ON p.category = c.id_category
-              LEFT JOIN brands b ON p.brand = b.id_brand
-              LEFT JOIN product_images pi ON p.id_product = pi.product
-              GROUP BY p.id_product
-              ORDER BY p.id_product DESC";
     
-    $result = $this->db->query($query);
-    $products = [];
-    if ($result) {
-        while ($row = $result->fetch_assoc()) {
-            $products[] = $row;
+    public function getAll(string $searchTerm = '', ?int $categoryId = null, ?int $brandId = null, bool $showOutOfStock = false): array
+    {
+        // Se eliminó p.model de la lista de columnas
+        $query = "SELECT 
+                    p.id_product, p.name, p.price, p.stock,
+                    c.name as category_name,
+                    b.name as brand_name,
+                    pi.file_name
+                FROM products p
+                LEFT JOIN categories c ON p.category = c.id_category
+                LEFT JOIN brands b ON p.brand = b.id_brand
+                LEFT JOIN product_images pi ON p.id_product = pi.product";
+
+        $conditions = [];
+        $params = [];
+        $types = '';
+
+        // Búsqueda por término (modificado para buscar solo en el nombre)
+        if (!empty($searchTerm)) {
+            $conditions[] = "p.name LIKE ?"; // Se eliminó la condición OR p.model LIKE ?
+            $likeTerm = "%{$searchTerm}%";
+            $params[] = $likeTerm;
+            $types .= 's';
         }
+
+        // Filtro por categoría
+        if ($categoryId !== null) {
+            $conditions[] = "p.category = ?";
+            $params[] = $categoryId;
+            $types .= 'i';
+        }
+
+        // Filtro por marca
+        if ($brandId !== null) {
+            $conditions[] = "p.brand = ?";
+            $params[] = $brandId;
+            $types .= 'i';
+        }
+        
+        // Filtro por stock agotado
+        if ($showOutOfStock) {
+            $conditions[] = "p.stock = 0";
+        }
+
+        if (!empty($conditions)) {
+            $query .= " WHERE " . implode(" AND ", $conditions);
+        }
+        
+        $query .= " GROUP BY p.id_product ORDER BY p.id_product DESC";
+
+        $stmt = $this->db->prepare($query);
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+        
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $products = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $products[] = $row;
+            }
+        }
+        $stmt->close();
+        return $products;
     }
-    return $products;
-}
 
     /**
      * Obtiene el conteo total de productos para la paginación.
@@ -153,4 +198,37 @@ class Product {
         $row = $result->fetch_assoc();
         return $row['total'];
     }
+
+    public function countTotalProducts(): int
+    {
+        $result = $this->db->query("SELECT COUNT(id_product) as total FROM products");
+        $row = $result->fetch_assoc();
+        return (int) $row['total'];
+    }
+
+    public function countNewArrivals(): int
+    {
+        // Si tu tabla 'new_products' no tiene 'created_at', esta consulta fallará.
+        // Una alternativa sería contar todos los registros de 'new_products'.
+        $result = $this->db->query("SELECT COUNT(id_new_product) as total FROM new_products");
+        if (!$result) return 0; // Manejo de error si la columna no existe
+        $row = $result->fetch_assoc();
+        return (int) $row['total'];
+    }
+
+
+    public function countOutOfStock(): int
+    {
+        $result = $this->db->query("SELECT COUNT(id_product) as total FROM products WHERE stock = 0");
+        $row = $result->fetch_assoc();
+        return (int) $row['total'];
+    }
+
+    public function countLowStock(): int
+    {
+        $result = $this->db->query("SELECT COUNT(id_product) as total FROM products WHERE stock > 0 AND stock < 10");
+        $row = $result->fetch_assoc();
+        return (int) $row['total'];
+    }
+
 }

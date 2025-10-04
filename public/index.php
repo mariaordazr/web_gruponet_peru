@@ -40,6 +40,10 @@ if ($segments[0] === 'auth') {
     // El segundo segmento de la URL es la acción (ej. /admin/dashboard -> 'dashboard')
     $action = $segments[1] ?? 'dashboard'; // Si no hay acción, por defecto es 'dashboard'
 
+    // Convertimos la ruta de kebab-case (ej. new-products) a camelCase (ej. newProducts)
+    $action = lcfirst(str_replace('-', '', ucwords($action, '-')));
+
+
     if (method_exists($controller, $action)) {
         $controller->$action();
     } else {

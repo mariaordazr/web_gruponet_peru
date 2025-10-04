@@ -14,7 +14,7 @@
             <i class='bx bx-star' style="color: #ff9800;"></i>
         </div>
         <div class="widget__info">
-            <h3>Recién Llegados (Últimos 30 días)</h3>
+            <h3>Recién Llegados</h3>
             <p class="widget-value"><?php echo htmlspecialchars(number_format($newArrivals ?? 0)); ?></p>
         </div>
     </div>

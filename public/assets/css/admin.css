@@ -52,7 +52,7 @@ h1, h2, h3, h4, h5, h6 {
     min-height: 100vh;
 }
 
-/* ======================= SIDEBAR (VERSIÓN CORREGIDA) ===========================*/
+/* ======================= SIDEBAR (VERSIÓN FIJA Y CON SCROLL) ===========================*/
 .sidebar {
     width: 260px;
     background-color: var(--sidebar-bg-color);
@@ -61,6 +61,7 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: column;
     box-shadow: var(--shadow-light);
     border-right: 1px solid var(--border-color);
+    flex-shrink: 0; /* Evita que la barra se encoja */
     
     /* --- CAMBIOS CLAVE --- */
     height: 100vh; /* Ocupa el 100% de la altura de la ventana */
@@ -80,7 +81,6 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 auto;
 }
 
-/* --- CAMBIOS CLAVE --- */
 .sidebar__nav {
     flex-grow: 1; /* Hace que la navegación ocupe todo el espacio sobrante */
     overflow-y: auto; /* AÑADE SCROLL AUTOMÁTICO SÓLO SI ES NECESARIO */
@@ -91,6 +91,7 @@ h1, h2, h3, h4, h5, h6 {
     list-style: none;
     padding: 0;
 }
+
 
 .nav-header {
     font-size: 0.75rem;
@@ -144,8 +145,6 @@ h1, h2, h3, h4, h5, h6 {
     border-top: 1px solid var(--border-color);
     flex-shrink: 0; /* Evita que el footer se encoja */
 }
-
-/* ... (el resto de tus estilos del sidebar__footer se mantienen igual) ... */
 
 .nav-header {
     font-size: 0.75rem;
@@ -417,12 +416,74 @@ h1, h2, h3, h4, h5, h6 {
 .top-selling-products td:nth-child(2) {
     font-weight: 500;
 }
+/* ======================= SIDEBAR TOGGLE BUTTON & COLLAPSED STATE ===========================*/
+
+/* Estilo para el botón de minimizar */
+.sidebar__toggle {
+    position: absolute;
+    top: 1.5rem;
+    right: -12px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.sidebar__toggle:hover {
+    transform: scale(1.1);
+}
+
+.sidebar__toggle i {
+    font-size: 1.2rem;
+    color: var(--secondary-text-color);
+}
+
+/* --- Estilos para el estado minimizado (`.sidebar--collapsed`) --- */
+
+.sidebar.sidebar--collapsed {
+    width: 88px; /* Ancho de la barra minimizada */
+}
+
+.sidebar.sidebar--collapsed .sidebar__logo {
+    display: none; /* Ocultamos el logo con texto */
+}
+
+.sidebar.sidebar--collapsed .sidebar__nav span,
+.sidebar.sidebar--collapsed .nav-header,
+.sidebar.sidebar--collapsed .logout-btn span {
+    display: none; /* Ocultamos todo el texto */
+}
+
+.sidebar.sidebar--collapsed .sidebar__nav a,
+.sidebar.sidebar--collapsed .logout-btn {
+    justify-content: center; /* Centramos los iconos */
+}
+
+.sidebar.sidebar--collapsed .sidebar__nav i,
+.sidebar.sidebar--collapsed .logout-btn i {
+    margin-right: 0;
+}
+
+/* Gira el icono del botón cuando la barra está minimizada */
+.sidebar.sidebar--collapsed .sidebar__toggle i {
+    transform: rotate(180deg);
+}
 
 
 /* ======================= RESPONSIVE ===========================*/
-@media (max-width: 992px) {
+
+@media (max-width: 768px) { /* CAMBIO: de 992px a 768px */
+
+    /* --- REGLAS PARA EL SIDEBAR EN MÓVIL --- */
     .sidebar {
-        width: 70px; 
+        width: 70px; /* Ancho reducido para móvil */
         padding: 0.8rem 0;
     }
 
@@ -430,12 +491,13 @@ h1, h2, h3, h4, h5, h6 {
         height: 35px;
     }
 
+    /* Ocultamos el texto y centramos los iconos */
     .sidebar__nav span, .nav-header, .logout-btn span {
-        display: none; 
+        display: none;
     }
 
     .sidebar__nav a, .logout-btn {
-        justify-content: center; 
+        justify-content: center;
         padding: 0.6rem;
         margin: 0.4rem auto;
     }
@@ -452,6 +514,16 @@ h1, h2, h3, h4, h5, h6 {
 
     .sidebar__footer {
         padding: 1rem;
+    }
+    /* --- FIN DE REGLAS PARA EL SIDEBAR --- */
+
+
+    /* ... (aquí van el resto de tus reglas responsive para el header, etc.) ... */
+    
+    .main-header-admin {
+        flex-wrap: wrap;
+        gap: 1rem;
+        height: auto;
     }
 
     .main-header-admin {
@@ -485,6 +557,10 @@ h1, h2, h3, h4, h5, h6 {
 
     .dashboard-widgets, .dashboard-stats {
         grid-template-columns: 1fr; 
+    }
+
+    .sidebar__toggle {
+        display: none;
     }
 } 
 
@@ -541,11 +617,6 @@ h1, h2, h3, h4, h5, h6 {
     overflow-x: auto;
 }
 
-.product-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
 .product-table th, .product-table td {
     padding: 1rem;
     text-align: left;
@@ -597,3 +668,55 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-delete { color: #dc3545; }
 .btn-delete:hover { background-color: #f8d7da; }
+
+.filter-bar .btn {
+    display: none; /* Oculta el botón "Filtrar" */
+}
+
+.filter-bar__checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 0;
+    white-space: nowrap;
+}
+
+/* ======================= ANCHOS DE COLUMNA PARA TABLA DE PRODUCTOS ===========================*/
+
+.product-table {
+    table-layout: fixed; /* MUY IMPORTANTE: Fuerza a la tabla a respetar los anchos definidos */
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Columna 1: Imagen */
+.product-table th:nth-child(1),
+.product-table td:nth-child(1) {
+    width: 70px;
+}
+
+/* Columna 2: Nombre del Producto (la más ancha) */
+.product-table th:nth-child(2) {
+    width: 60%; /* Puedes usar porcentajes para la columna principal */
+}
+
+/* Columna 3 y 4: Categoría y Marca */
+.product-table th:nth-child(3),
+.product-table th:nth-child(4) {
+    width: 15%;
+}
+
+/* Columna 5 y 6: Precio y Stock */
+.product-table th:nth-child(5),
+.product-table td:nth-child(5),
+.product-table th:nth-child(6),
+.product-table td:nth-child(6) {
+    width: 100px;
+}
+
+/* Columna 7: Acciones */
+.product-table th:nth-child(7),
+.product-table td:nth-child(7) {
+    width: 110px;
+    text-align: center;
+}

@@ -15,6 +15,10 @@
                 <a href="/admin/dashboard" class="sidebar__logo">
                     <img src="/assets/img/gruponet.webp" alt="Logo Gruponet">
                 </a>
+
+                <button class="sidebar__toggle" id="sidebar-toggle" title="Minimizar menú">
+                    <i class='bx bx-menu-alt-right'></i>
+                </button>
             </div>
             <nav class="sidebar__nav">
                 <ul>

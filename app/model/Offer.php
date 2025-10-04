@@ -48,28 +48,74 @@ class Offer
      * @param int|null $productId El ID del producto (opcional).
      * @return array
      */
-    public function getAll(): array
-{
-    $query = "SELECT 
-                p.name, /* <-- AÑADE ESTA LÍNEA */
-                p.price AS original_price, 
-                o.price AS offer_price,
-                o.message, 
-                pi.file_name,
-                o.product AS product_id
-              FROM offers o
-              JOIN products p ON o.product = p.id_product
-              LEFT JOIN product_images pi ON p.id_product = pi.product";
-    
-    $result = $this->db->query($query);
-    $offers = [];
-    if ($result) {
-        while ($row = $result->fetch_assoc()) {
-            $offers[] = $row;
+        public function getOfferedProducts(string $searchTerm = '', ?int $categoryId = null, ?int $brandId = null, bool $showOutOfStock = false): array
+    {
+        // Se eliminó p.model de la lista de columnas
+        $query = "SELECT 
+                    p.id_product, p.name, p.price, p.stock,
+                    c.name as category_name,
+                    b.name as brand_name,
+                    pi.file_name
+                FROM offers o
+                INNER JOIN products p ON o.product = p.id_product
+                LEFT JOIN categories c ON p.category = c.id_category
+                LEFT JOIN brands b ON p.brand = b.id_brand
+                LEFT JOIN product_images pi ON p.id_product = pi.product";
+
+        $conditions = [];
+        $params = [];
+        $types = '';
+
+        // Búsqueda por término (modificado para buscar solo en el nombre)
+        if (!empty($searchTerm)) {
+            $conditions[] = "p.name LIKE ?"; // Se eliminó la condición OR p.model LIKE ?
+            $likeTerm = "%{$searchTerm}%";
+            $params[] = $likeTerm;
+            $types .= 's';
         }
+
+        // Filtro por categoría
+        if ($categoryId !== null) {
+            $conditions[] = "p.category = ?";
+            $params[] = $categoryId;
+            $types .= 'i';
+        }
+
+        // Filtro por marca
+        if ($brandId !== null) {
+            $conditions[] = "p.brand = ?";
+            $params[] = $brandId;
+            $types .= 'i';
+        }
+        
+        // Filtro por stock agotado
+        if ($showOutOfStock) {
+            $conditions[] = "p.stock = 0";
+        }
+
+        if (!empty($conditions)) {
+            $query .= " WHERE " . implode(" AND ", $conditions);
+        }
+        
+        $query .= " GROUP BY p.id_product ORDER BY p.id_product DESC";
+
+        $stmt = $this->db->prepare($query);
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+        
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $products = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $products[] = $row;
+            }
+        }
+        $stmt->close();
+        return $products;
     }
-    return $offers;
-}
 
     /**
      * Actualiza una oferta existente.
@@ -100,5 +146,27 @@ class Offer
         $result = $stmt->execute();
         $stmt->close();
         return $result;
+    }
+
+    public function getAll(): array
+    {
+        $query = "SELECT 
+                    p.name, 
+                    p.price AS original_price, 
+                    o.price AS offer_price,
+                    pi.file_name,
+                    o.product AS product_id
+                  FROM offers o
+                  JOIN products p ON o.product = p.id_product
+                  LEFT JOIN product_images pi ON p.id_product = pi.product";
+        
+        $result = $this->db->query($query);
+        $offers = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $offers[] = $row;
+            }
+        }
+        return $offers;
     }
 }

@@ -106,4 +106,78 @@ class NewProduct
         $stmt->close();
         return $result;
     }
+
+    // En app/model/NewProduct.php
+
+    // ... (tus otros métodos como create, delete, etc. van aquí) ...
+
+    /**
+     * Obtiene una lista filtrable de todos los productos marcados como "nuevos".
+     */
+    // En app/model/NewProduct.php
+
+    public function getNewProductsList(string $searchTerm = '', ?int $categoryId = null, ?int $brandId = null, bool $showOutOfStock = false): array
+    {
+        $query = "SELECT 
+                    p.id_product, p.name, p.price, p.stock,
+                    c.name as category_name,
+                    b.name as brand_name,
+                    pi.file_name
+                FROM new_products np
+                INNER JOIN products p ON np.product = p.id_product
+                LEFT JOIN categories c ON p.category = c.id_category
+                LEFT JOIN brands b ON p.brand = b.id_brand
+                LEFT JOIN product_images pi ON p.id_product = pi.product";
+
+        $conditions = [];
+        $params = [];
+        $types = '';
+
+        // Lógica de filtrado
+        if (!empty($searchTerm)) {
+            $conditions[] = "p.name LIKE ?";
+            $likeTerm = "%{$searchTerm}%";
+            $params[] = $likeTerm;
+            $types .= 's';
+        }
+        if ($categoryId !== null) {
+            $conditions[] = "p.category = ?";
+            $params[] = $categoryId;
+            $types .= 'i';
+        }
+        if ($brandId !== null) {
+            $conditions[] = "p.brand = ?";
+            $params[] = $brandId;
+            $types .= 'i';
+        }
+        if ($showOutOfStock) {
+            $conditions[] = "p.stock = 0";
+        }
+
+        if (!empty($conditions)) {
+            $query .= " WHERE " . implode(" AND ", $conditions);
+        }
+        
+        $query .= " GROUP BY p.id_product ORDER BY p.id_product DESC";
+
+        // LA CORRECCIÓN ESTÁ AQUÍ: Se cambió $this.db por $this->db
+        $stmt = $this->db->prepare($query); 
+        
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+        
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $products = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $products[] = $row;
+            }
+        }
+        $stmt->close();
+        return $products;
+    }
+
 }
